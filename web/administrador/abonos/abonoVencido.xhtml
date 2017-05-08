@@ -35,7 +35,7 @@
 
                             </p:column>
                             <p:column headerText="valor Abono">
-                                <h:outputText value="#{item.montoabono}"/>
+                                <h:outputText value="#{item.valorCuota}"/>
 
                             </p:column>
                             <p:column headerText="Saldo Final">
@@ -48,10 +48,6 @@
                             </p:column>
                             <p:column headerText="Vigencia" filterBy="fechaPlazo" styleClass="#{mbAbonos.calculaFecha(item.fechaPlazo)}">
                                     <h:outputText value="#{item.fechaPlazo}"/>
-
-                            </p:column>
-                            <p:column headerText="Forma pago" styleClass="#{item.formapago.idformaPago!=1 ? 'colortest':''}">
-                                <h:outputText value="#{mbPagos.getById(item.formapago.idformaPago).getNombre()}"/>
 
                             </p:column>
                             <p:column headerText="Estado">

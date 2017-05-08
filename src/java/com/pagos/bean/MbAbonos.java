@@ -76,7 +76,7 @@ public class MbAbonos implements Serializable {
     private int codigoRuta;
     private int idProductoDevolucion;
     private String codigo;
-      private int idPrestamo;
+    private int idPrestamo;
 
     public MbAbonos() {
 
@@ -111,15 +111,15 @@ public class MbAbonos implements Serializable {
 
             if (this.cliente == null) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error:", "Por favor selecione un cliente."));
-                return ;
+                return;
             }
             if (this.empleado == null) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error:", "Por favor selecione un Empleado."));
-                return ;
+                return;
             }
-  if(this.idPrestamo==0){
+            if (this.idPrestamo == 0) {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error:", "Por favor selecione el tipo de prestamo."));
-                return ;
+                return;
             }
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaccion = this.session.beginTransaction();
@@ -132,7 +132,7 @@ public class MbAbonos implements Serializable {
             this.abonos.setCuota(this.abonos.getTotalCuotas());
             this.abonos.setEstado("VIGENTE");
             this.abonos.setCuotaVencida(0);
-               this.abonos.setIdPrestamo(this.idPrestamo);
+            this.abonos.setIdPrestamo(this.idPrestamo);
             daoAbonos.registar(this.session, this.abonos);
 
             this.abonos = daoAbonos.getByUltimoRegistro(this.session);
@@ -151,7 +151,7 @@ public class MbAbonos implements Serializable {
             this.abonos.setTotalCuotas(0);
             this.abonos.setValorCuota(0l);
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto:", "Se ha registrado "));
-            return ;
+            return;
         } catch (Exception ex) {
             if (this.transaccion != null) {
                 this.transaccion.rollback();
@@ -322,8 +322,7 @@ public class MbAbonos implements Serializable {
         }
     }
 
-    
-      public void searchByCodigo() {
+    public void searchByCodigo() {
         this.listaAbonoSel = new ArrayList<>();
         this.session = null;
         this.transaccion = null;
@@ -347,6 +346,7 @@ public class MbAbonos implements Serializable {
     }
 //
     //    aqui comienza el codigo nuevo 
+
     public void agregarDatosCliente(Integer codCliente) {
         this.session = null;
         this.transaccion = null;
@@ -412,7 +412,7 @@ public class MbAbonos implements Serializable {
     public void limpiarAbonos() {
         this.cliente = new Cliente();
         this.empleado = new Empleado();
-        
+
         this.abonos = new Abonos();
         this.listaAbono = new ArrayList<>();
         this.montoAbono = 0;
@@ -519,24 +519,42 @@ public class MbAbonos implements Serializable {
 
     public String calculaFecha(Date date) {
         String color = "";
-        if (date != null) {
-            //Fecha de vencimiento
-            Calendar vencido = Calendar.getInstance();
-            vencido.setTime(date);
-            //Fecha actual
-            Calendar fecha = Calendar.getInstance();
+        System.out.println("entro");
+        try {
+            if (date != null) {
+                //Fecha de vencimiento
+                Calendar vencido = Calendar.getInstance();
+                vencido.setTime(date);
+                //Fecha actual
+                Calendar fecha = Calendar.getInstance();
 
-            if (fecha.after(vencido) || fecha.equals(vencido)) {
-                color = "colorvencido";
-            } else {
-                long diferencia = vencido.getTime().getTime() - fecha.getTime().getTime();
-                long diasDiferencia = diferencia / (24 * 60 * 60 * 1000);
-                if (diasDiferencia <= 10 && diasDiferencia >= 6) {
-                    color = "colorPendiente";
-                } else if (diasDiferencia <= 5) {
-                    color = "colorPendientef";
+                if (fecha.after(vencido) || fecha.equals(vencido)) {
+                    color = "colorvencido";
+                    System.out.println("el primer de vencido color ..................");
+                } else if (this.abonos.getIdPrestamo() == 2) {
+                    long diferencia = vencido.getTime().getTime() - fecha.getTime().getTime();
+                    long diasDiferencia = diferencia / (24 * 60 * 60 * 1000);
+                    if (diasDiferencia <= 5 && diasDiferencia >= 3) {
+                        color = "colorPendiente";
+                        System.out.println("prestamo 2 y dias de 5 a 3...................");
+                    } else if (diasDiferencia <= 2) {
+                        color = "colorPendientef";
+                           System.out.println("prestamo 2 y dias menos 2");
+                    }
+                } else if (this.abonos.getIdPrestamo() == 3) {
+                    long diferencia = vencido.getTime().getTime() - fecha.getTime().getTime();
+                    long diasDiferencia = diferencia / (24 * 60 * 60 * 1000);
+                    if (diasDiferencia <= 10 && diasDiferencia >= 6) {
+                        color = "colorPendiente";
+                           System.out.println("prestamo 3 y dias de 10 a 6...................");
+                    } else if (diasDiferencia <= 5) {
+                        color = "colorPendientef";
+                           System.out.println("prestamo 3 y dias de 5 ...................");
+                    }
                 }
             }
+
+        } catch (Exception e) {
         }
         return color;
     }
