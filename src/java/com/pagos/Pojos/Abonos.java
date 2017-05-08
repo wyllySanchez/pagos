@@ -1,5 +1,5 @@
 package com.pagos.Pojos;
-// Generated 1/05/2017 01:09:13 PM by Hibernate Tools 4.3.1
+// Generated 8/05/2017 04:50:17 PM by Hibernate Tools 4.3.1
 
 
 import java.util.Date;
@@ -25,6 +25,7 @@ public class Abonos  implements java.io.Serializable {
      private Integer totalCuotas;
      private Long valorCuota;
      private Integer cuotaVencida;
+     private Integer idPrestamo;
      private Set abonosecundarios = new HashSet(0);
 
     public Abonos() {
@@ -35,7 +36,7 @@ public class Abonos  implements java.io.Serializable {
         this.cliente = cliente;
         this.empleado = empleado;
     }
-    public Abonos(Cliente cliente, Empleado empleado, Ruta ruta, Long precioTotal, Long saldofinal, Date fecharegistro, Date fechaPlazo, String estado, Integer cuota, Integer totalCuotas, Long valorCuota, Integer cuotaVencida, Set abonosecundarios) {
+    public Abonos(Cliente cliente, Empleado empleado, Ruta ruta, Long precioTotal, Long saldofinal, Date fecharegistro, Date fechaPlazo, String estado, Integer cuota, Integer totalCuotas, Long valorCuota, Integer cuotaVencida, Integer idPrestamo, Set abonosecundarios) {
        this.cliente = cliente;
        this.empleado = empleado;
        this.ruta = ruta;
@@ -48,6 +49,7 @@ public class Abonos  implements java.io.Serializable {
        this.totalCuotas = totalCuotas;
        this.valorCuota = valorCuota;
        this.cuotaVencida = cuotaVencida;
+       this.idPrestamo = idPrestamo;
        this.abonosecundarios = abonosecundarios;
     }
    
@@ -141,6 +143,13 @@ public class Abonos  implements java.io.Serializable {
     
     public void setCuotaVencida(Integer cuotaVencida) {
         this.cuotaVencida = cuotaVencida;
+    }
+    public Integer getIdPrestamo() {
+        return this.idPrestamo;
+    }
+    
+    public void setIdPrestamo(Integer idPrestamo) {
+        this.idPrestamo = idPrestamo;
     }
     public Set getAbonosecundarios() {
         return this.abonosecundarios;

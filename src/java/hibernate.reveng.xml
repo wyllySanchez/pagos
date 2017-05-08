@@ -41,14 +41,14 @@ Contributor(s):
 -->
 <hibernate-reverse-engineering>
   <schema-selection match-catalog="pagos"/>
-  <table-filter match-name="tipodocumento"/>
-  <table-filter match-name="cliente"/>
-  <table-filter match-name="abonos"/>
-  <table-filter match-name="rol"/>
-  <table-filter match-name="ciudad"/>
   <table-filter match-name="abonosecundario"/>
-  <table-filter match-name="gasto"/>
+  <table-filter match-name="ciudad"/>
+  <table-filter match-name="cliente"/>
   <table-filter match-name="empleado"/>
   <table-filter match-name="ruta"/>
+  <table-filter match-name="gasto"/>
+  <table-filter match-name="rol"/>
+  <table-filter match-name="abonos"/>
+  <table-filter match-name="tipodocumento"/>
   <table-filter match-name="caja"/>
 </hibernate-reverse-engineering>

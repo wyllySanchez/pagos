@@ -15,6 +15,7 @@ import com.pagos.Pojos.Cliente;
 import com.pagos.util.HibernateUtil;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.faces.application.FacesMessage;
@@ -91,8 +92,7 @@ public class MbAbonoSecundario {
             }
         }
     }
-    
-    public void save() {
+     public void save() {
         this.listaAbonos = new ArrayList<>();
         this.session = null;
         this.transaccion = null;
@@ -114,103 +114,118 @@ public class MbAbonoSecundario {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", "El monto de abono es mayor que el saldo.." + abonos.getSaldofinal()));
                 return;
             }
-            System.out.println("antes de la condicion");
-            if (abonos.getSaldofinal() - this.abonosecundario.getValorAbono() <= 0) {
-                System.out.println("antes de el estado ");
-                abonos.setEstado("CANCELADO");
-                System.out.println("despues de el estado  y cuota vencidad" + abonos.getEstado());
-                abonos.setCuotaVencida(0);
-                System.out.println("despues de el estado  y cuota vencida" + abonos.getCuotaVencida());
-                
-                System.out.println("despues  de el estado y cuota en 0" + abonos.getCuota());
-            }
+//            System.out.println("antes de la condicion");
+//            if (abonos.getSaldofinal() - this.abonosecundario.getValorAbono() <= 0) {
+//                System.out.println("antes de el estado ");
+//                abonos.setEstado("CANCELADO");
+//                System.out.println("despues de el estado  y cuota vencidad" + abonos.getEstado());
+//                abonos.setCuotaVencida(0);
+//                System.out.println("despues de el estado  y cuota vencida" + abonos.getCuotaVencida());
+//                
+//                System.out.println("despues  de el estado y cuota en 0" + abonos.getCuota());
+//            }
             
             if (this.abonosecundario.getValorAbono() / abonos.getValorCuota() == 1) {
                 abonos.setCuota(abonos.getCuota() - 1);
+                abonos.setFechaPlazo(fechaSiguiente(abonos.getIdPrestamo(),abonos.getFechaPlazo()));
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se agrego una nueva Cuota"));
             } else if (this.abonosecundario.getValorAbono() / abonos.getValorCuota() == 2) {
                 abonos.setCuota(abonos.getCuota() - 2);
                 if (abonos.getCuotaVencida() >= 1) {
                     abonos.setCuotaVencida(this.abonos.getCuotaVencida() - 1);
                 }
+                 abonos.setFechaPlazo(fechaSiguiente(abonos.getIdPrestamo(),abonos.getFechaPlazo()));
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se agregaron 2 Cuotas"));
             } else if (this.abonosecundario.getValorAbono() / abonos.getValorCuota() == 3) {
                 abonos.setCuota(abonos.getCuota() - 3);
                 if (abonos.getCuotaVencida() >= 1) {
                     abonos.setCuotaVencida(this.abonos.getCuotaVencida() - 2);
                 }
+                 abonos.setFechaPlazo(fechaSiguiente(abonos.getIdPrestamo(),abonos.getFechaPlazo()));
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se agregaron 3 Cuotas"));
             } else if (this.abonosecundario.getValorAbono() / abonos.getValorCuota() == 4) {
                 abonos.setCuota(abonos.getCuota() - 4);
                 if (abonos.getCuotaVencida() >= 1) {
                     abonos.setCuotaVencida(this.abonos.getCuotaVencida() - 3);
                 }
+                abonos.setFechaPlazo(fechaSiguiente(abonos.getIdPrestamo(),abonos.getFechaPlazo()));
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se agregaron 4 Cuotas"));
             } else if (this.abonosecundario.getValorAbono() / abonos.getValorCuota() == 5) {
                 abonos.setCuota(abonos.getCuota() - 5);
                 if (abonos.getCuotaVencida() >= 1) {
                     abonos.setCuotaVencida(this.abonos.getCuotaVencida() - 4);
                 }
+                  abonos.setFechaPlazo(fechaSiguiente(abonos.getIdPrestamo(),abonos.getFechaPlazo()));
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se agregaron 5 Cuotas"));
             } else if (this.abonosecundario.getValorAbono() / abonos.getValorCuota() == 6) {
                 abonos.setCuota(abonos.getCuota() - 6);
                 if (abonos.getCuotaVencida() >= 1) {
                     abonos.setCuotaVencida(this.abonos.getCuotaVencida() - 5);
                 }
+                 abonos.setFechaPlazo(fechaSiguiente(abonos.getIdPrestamo(),abonos.getFechaPlazo()));
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se agregaron 6 Cuotas"));
             } else if (this.abonosecundario.getValorAbono() / abonos.getValorCuota() == 7) {
                 abonos.setCuota(abonos.getCuota() - 7);
                 if (abonos.getCuotaVencida() >= 1) {
                     abonos.setCuotaVencida(this.abonos.getCuotaVencida() - 6);
                 }
+                  abonos.setFechaPlazo(fechaSiguiente(abonos.getIdPrestamo(),abonos.getFechaPlazo()));
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se agregaron 7 Cuotas"));
             } else if (this.abonosecundario.getValorAbono() / abonos.getValorCuota() == 8) {
                 abonos.setCuota(abonos.getCuota() - 8);
                 if (abonos.getCuotaVencida() >= 1) {
                     abonos.setCuotaVencida(this.abonos.getCuotaVencida() - 7);
                 }
+                  abonos.setFechaPlazo(fechaSiguiente(abonos.getIdPrestamo(),abonos.getFechaPlazo()));
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se agregaron 8Cuotas"));
             } else if (this.abonosecundario.getValorAbono() / abonos.getValorCuota() == 9) {
                 abonos.setCuota(abonos.getCuota() - 9);
                 if (abonos.getCuotaVencida() >= 1) {
                     abonos.setCuotaVencida(this.abonos.getCuotaVencida() - 8);
                 }
+                  abonos.setFechaPlazo(fechaSiguiente(abonos.getIdPrestamo(),abonos.getFechaPlazo()));
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se agregaron 9 Cuotas"));
             } else if (this.abonosecundario.getValorAbono() / abonos.getValorCuota() == 10) {
                 abonos.setCuota(abonos.getCuota() - 10);
                 if (abonos.getCuotaVencida() >= 1) {
                     abonos.setCuotaVencida(this.abonos.getCuotaVencida() - 9);
                 }
+                 abonos.setFechaPlazo(fechaSiguiente(abonos.getIdPrestamo(),abonos.getFechaPlazo()));
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se agregaron 10 Cuotas"));
             } else if (this.abonosecundario.getValorAbono() / abonos.getValorCuota() == 11) {
                 abonos.setCuota(abonos.getCuota() - 11);
                 if (abonos.getCuotaVencida() >= 1) {
                     abonos.setCuotaVencida(this.abonos.getCuotaVencida() - 10);
                 }
+                   abonos.setFechaPlazo(fechaSiguiente(abonos.getIdPrestamo(),abonos.getFechaPlazo()));
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se agregaron 11 Cuotas"));
             } else if (this.abonosecundario.getValorAbono() / abonos.getValorCuota() == 12) {
                 abonos.setCuota(abonos.getCuota() - 12);
                 if (abonos.getCuotaVencida() >= 1) {
                     abonos.setCuotaVencida(this.abonos.getCuotaVencida() - 11);
                 }
+                   abonos.setFechaPlazo(fechaSiguiente(abonos.getIdPrestamo(),abonos.getFechaPlazo()));
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se agregaron 12 Cuotas"));
             } else if (this.abonosecundario.getValorAbono() / abonos.getValorCuota() == 13) {
                 abonos.setCuota(abonos.getCuota() - 13);
                 if (abonos.getCuotaVencida() >= 1) {
                     abonos.setCuotaVencida(this.abonos.getCuotaVencida() - 12);
                 }
+                   abonos.setFechaPlazo(fechaSiguiente(abonos.getIdPrestamo(),abonos.getFechaPlazo()));
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se agregaron 13 Cuotas"));
             } else if (this.abonosecundario.getValorAbono() / abonos.getValorCuota() == 14) {
                 abonos.setCuota(abonos.getCuota() - 14);
                 if (abonos.getCuotaVencida() >= 1) {
                     abonos.setCuotaVencida(this.abonos.getCuotaVencida() - 13);
                 }
+                 abonos.setFechaPlazo(fechaSiguiente(abonos.getIdPrestamo(),abonos.getFechaPlazo()));
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se agregaron 14 Cuotas"));
             } else if (this.abonosecundario.getValorAbono() / abonos.getValorCuota() == 15) {
                 abonos.setCuota(abonos.getCuota() - 15);
                 if (abonos.getCuotaVencida() >= 1) {
                     abonos.setCuotaVencida(this.abonos.getCuotaVencida() - 14);
                 }
+                 abonos.setFechaPlazo(fechaSiguiente(abonos.getIdPrestamo(),abonos.getFechaPlazo()));
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se agregaron 15 Cuotas"));
             } else if (abonos.getSaldofinal() - this.abonosecundario.getValorAbono() <= 0) {
                 abonos.setEstado("CANCELADO");
@@ -219,8 +234,9 @@ public class MbAbonoSecundario {
                 abonos.setCuota(0);
                 abonos.setSaldofinal(0l);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se agrego una nueva cuota vencida."));
-                
-            }
+             }
+            
+       
             
             daoAbonos.actualizar(this.session, abonos);
             System.out.println("despues de la resta");
@@ -293,6 +309,27 @@ public class MbAbonoSecundario {
                 this.session.close();
             }
         }
+    }
+    
+    public Date fechaSiguiente(int id,Date fechaPla){
+          Calendar vencido = Calendar.getInstance();
+          vencido.setTime(fechaPla);
+         switch(id){
+            case 1:
+                //Diario
+                 vencido.set(Calendar.DAY_OF_MONTH, vencido.get(Calendar.DAY_OF_MONTH)+1);
+                 return vencido.getTime();
+            case 2:
+                //Quincenal
+                 vencido.set(Calendar.DAY_OF_MONTH, vencido.get(Calendar.DAY_OF_MONTH)+15);
+                 return vencido.getTime();
+            case 3:
+                //Mensual
+                vencido.set(Calendar.DAY_OF_MONTH, vencido.get(Calendar.DAY_OF_MONTH)+30);
+                return vencido.getTime();
+            default:
+                return new Date();
+        }  
     }
     
     public void selectAbono(int id) {

@@ -76,6 +76,7 @@ public class MbAbonos implements Serializable {
     private int codigoRuta;
     private int idProductoDevolucion;
     private String codigo;
+      private int idPrestamo;
 
     public MbAbonos() {
 
@@ -116,7 +117,10 @@ public class MbAbonos implements Serializable {
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error:", "Por favor selecione un Empleado."));
                 return ;
             }
-
+  if(this.idPrestamo==0){
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Error:", "Por favor selecione el tipo de prestamo."));
+                return ;
+            }
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaccion = this.session.beginTransaction();
 
@@ -128,6 +132,7 @@ public class MbAbonos implements Serializable {
             this.abonos.setCuota(this.abonos.getTotalCuotas());
             this.abonos.setEstado("VIGENTE");
             this.abonos.setCuotaVencida(0);
+               this.abonos.setIdPrestamo(this.idPrestamo);
             daoAbonos.registar(this.session, this.abonos);
 
             this.abonos = daoAbonos.getByUltimoRegistro(this.session);
@@ -821,6 +826,14 @@ public class MbAbonos implements Serializable {
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
+    }
+
+    public int getIdPrestamo() {
+        return idPrestamo;
+    }
+
+    public void setIdPrestamo(int idPrestamo) {
+        this.idPrestamo = idPrestamo;
     }
 
 }
