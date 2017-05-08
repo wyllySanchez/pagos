@@ -1,0 +1,107 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formReporteFechas">
+                    <p:growl id="mensajeGeneral" showDetail="true"/>
+                    <center> <h3>REPORTE VENTAS</h3></center>
+                    <hr></hr>
+                    <div class="container-fluid">
+                        <div class="container">
+
+
+                            <div class="panel-body">
+                                <h:form  styleClass="form-group" >
+                                    <p:growl id="growl" showDetail="true" sticky="true" />  
+                                    <p:panelGrid columns="6">
+                                        <h:outputLabel  value="Fecha Inicio" />                                
+                                        <p:calendar id="FechaInicio" label="yyyy/mm/dd" pattern="yyyy/MM/dd" showOn="button" value="#{factura.fechaInicio}" />
+
+
+                                        <h:outputLabel  value="FechaFin" />                                
+                                        <p:calendar id="FechaFinal" label="yyyy/mm/dd" pattern="yyyy/MM/dd" showOn="button" value="#{factura.fechaFin}" />
+
+
+
+                                        <h:commandButton styleClass="btn btn-success " value="Agregar" actionListener="#{factura.consultarVentas}" >
+                                            <p:ajax process="@this @form" update=":formReporteFechas:tbl"/>
+                                        </h:commandButton>
+                                        <a onclick="imprimir()" class="btn btn-warning " >Imprimir</a>
+                                    </p:panelGrid>
+                                </h:form>
+
+
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                            <div id="imprimeDiv" class="container">
+                                <p:dataTable id="tbl" var="lista" value="#{factura.listVentasByFecha}">
+                                   <f:facet   name="header">
+
+                                    <h2>   
+                                        <a>
+                                            <img class="logotipo" alt="Brand" src="/JUBAL/resources/imagenes/imgJubal.jpg" width="150" height="55" style="background: #fff;"></img>
+                                        </a>
+                                        VIDRIOS JUBAL S.A.S 
+
+                                        <h6>Vidrios de 2 a 19 mm -
+                                            Divisiones para baño en vidrio templado o aluminio -
+                                            Acrilico persianas verticales y horizontales<br></br> Cortineros 
+                                            Mosquiteros en aluminio- Espejos tallados y todo lo relacionado con Ventaneria y puertas en aluminio arquitetonico <br></br>
+                                            Fachada en vidrio templado</h6>
+                                    </h2>   
+
+                                    RODRIGO  NIT: 6'645.506-5. <br></br>  
+                                    Direccion: calle 31 # 22-39 Barrio Centro  Palmira(valle). <br></br>     
+                                    Telefono: 2724344  2727212   FAX: 2735154.   email:vidriosjubal@hotmail.com<br></br> 
+
+                                </f:facet>
+
+
+                                    <p:column headerText="Cliente">
+                                        <h:outputText value="#{beanEmpleado.getById(lista.empleado.idempleado).getNombre()}" />
+                                    </p:column>
+                                    <p:column  headerText="Fecha">
+                                        <h:outputText value="#{lista.fechaventa}" />
+                                    </p:column>
+                                    <p:column  headerText="Valor">
+                                        <h:outputText value="#{lista.preciototal}" />
+                                    </p:column>
+
+                                    <p:columnGroup type="footer">
+                                        <p:row>
+
+                                            <p:column footerText=""/>
+                                            <p:column footerText=""/>
+                                            <p:column footerText="total ventas $:#{factura.totalVentasFecha}"/>
+
+                                        </p:row>
+
+                                    </p:columnGroup>
+
+                                </p:dataTable>
+                            </div>
+                        </div>
+                        <div class="row">
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="bottom">
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

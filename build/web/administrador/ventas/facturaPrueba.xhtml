@@ -1,0 +1,354 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="top">
+
+                <h:form>
+                    <h:panelGrid  width="900px" style="margin: 0 auto; background-color: #045491">
+                        <p:commandButton value="Realizar Nueva Factura" 
+                                         update=":frmFactura" action="#{factura.enebleButton()}"
+                                         style="width: 100%; height: 50px;"/> 
+                    </h:panelGrid>
+                </h:form>
+
+                <h:form id="frmFactura">
+                    <p:growl id="mensajeGeneral" showDetail="true" autoUpdate="true" life="3000"/>
+                    <p:panel header=""  style="width: 900px;text-align: center; margin: 0 auto;" >
+                        <p:layout id="capaDatosClientesFactura" style="width: 100%; height: 150px;">
+                            <p:layoutUnit id="DatosCliente" position="center" style="padding: 5px; 
+                                          font-size: 14px; text-align: justify" size="150">
+
+                                <h:panelGrid id="gripBuscarDatosClintes" columns="3">                                     
+                                    <p:outputLabel id="txtBuscarCliente" value="Codigo Cliente  " style="font-weight: bold; margin-right: 15px;"/>
+
+
+                                    <p:commandButton value="Buscar  Cliente ....." oncomplete="PF('dilogoCliente').show();"
+                                                     update=":frmCliente" 
+                                                     disabled="#{!factura.enabled}"/>
+                                </h:panelGrid>
+
+
+                                <p:separator/>
+
+                                <h:panelGrid id="gripDatosClintes" columns="4">
+                                    <p:outputLabel value="Nombre" style="font-weight: bold;"/>
+                                    <p:outputLabel id="lblNombreCliente"  value="#{factura.cliente.nombre} #{factura.cliente.apellidos}"/>
+                                    <p:outputLabel value="N° Documento" style="font-weight: bold; margin-left: 30px;"/>
+                                    <p:outputLabel id="lblNumeroCliente"  value="#{factura.cliente.numeroDocumentoC}"/>      
+                                    <p:outputLabel value="Direccion" style="font-weight: bold;"/>
+                                    <p:outputLabel  id="lblDireccionCliente" value="#{factura.cliente.direccion}" />
+                                    <p:outputLabel value="N° Telefono" style="font-weight: bold; margin-left: 30px;"/>
+                                    <p:outputLabel id="lblTelefonoCliente"  value="#{factura.cliente.telefono}"/>
+
+                                </h:panelGrid>
+
+                            </p:layoutUnit>
+                        </p:layout>
+                        <p:layout id="capaDatosPagos" style="width: 100%; height: 100px;">
+                            <p:layoutUnit id="DatosPagos" position="center" style="padding: 5px; 
+                                          font-size: 14px; text-align: justify" size="150">
+                                <h:panelGrid id="gripBuscarDatosPagos" columns="3">                                     
+                                    <p:outputLabel id="txtBuscarPagos" value="Forma de pago  " style="font-weight: bold; margin-right: 15px;"/>
+
+
+                                    <p:commandButton value="Buscar Pagos ....." oncomplete="PF('dilogoPagos').show();"
+                                                     update=":frmPagos" 
+                                                     disabled="#{!factura.enabled}"/>
+                                </h:panelGrid>
+                                <h:panelGrid id="gripDatosPagos" columns="4">
+                                    <p:outputLabel value="Nombre" style="font-weight: bold; margin-right: 20px;"/>
+                                    <p:outputLabel id="lblNombrePago"  value="#{factura.pagos.nombre}"/>
+                                    <p:outputLabel id="lblNumeroPago" rendered="#{factura.pagos.idformaPago==2 || factura.pagos.idformaPago==3 || factura.pagos.idformaPago==4}" value="Numero" />      
+                                    <p:inputText value="#{factura.pagos.numero}" rendered="#{factura.pagos.idformaPago==2 || factura.pagos.idformaPago==3 || factura.pagos.idformaPago==4}" style="font-weight: bold; margin-left: 30px;"/>
+                                    <p:outputLabel value="Fecha Plazo" rendered="#{factura.pagos.idformaPago==2 || factura.pagos.idformaPago==3 || factura.pagos.idformaPago==4}"
+                                                   style="font-weight: bold; margin-right: 20px;"/>
+                                    <p:calendar id="FechaPlazo" label="yyyy/mm/dd" pattern="yyyy/MM/dd" showOn="button" value="#{factura.factura.fechaPlazo}" rendered="#{factura.pagos.idformaPago==2 || factura.pagos.idformaPago==3 || factura.pagos.idformaPago==4}" />
+
+                                </h:panelGrid>           
+                            </p:layoutUnit>
+                        </p:layout>
+                        <p:separator/>
+
+                        <!--   <p:accordionPanel>
+                               <p:tab title="Seleccione Productos">
+                                   <p:growl id="growl" showDetail="true" sticky="true" />  
+   
+                                   <h:panelGroup id="tablas1">
+   
+                                       <p:dataTable id="tablaProducto"  style="font-size: 10px;" scrollable="true" scrollHeight="150"
+                                                    var="produ" value="# {factura.allProducto}" emptyMessage="No hay datos de productos">
+   
+                                           <p:column headerText="Nombre" filterBy="nombrepro">
+                                               <h:outputText value="# {produ.nombre}"/>
+                                           </p:column>
+                                           <p:column headerText="Precio Venta">
+                                               <h:outputText value="# {produ.precioUnitario}"/>
+                                           </p:column>
+                                           <p:column headerText="Cantidad">
+                                               <h:outputText value="# {produ.cantidad}"/>
+                                           </p:column>
+                                           <p:column>
+                                               <p:commandButton  value="Agregar" actionListener="# {factura.seleccioneProducto(produ.idproductos)}"
+                                                                 update=":frmFactura:tablaProductosFactura :frmFactura:gripTotalFactura">
+                                               </p:commandButton>  
+                                           </p:column>
+                                       </p:dataTable>
+                                   </h:panelGroup>
+   
+                               </p:tab>
+                           </p:accordionPanel>-->
+                        <p:dataTable id="tablaProductosFactura" var="item" value="#{factura.listaVentana}" 
+                                     editable="true" rowIndexVar="rowIndex">
+                            <p:ajax event="rowEdit" listener="#{factura.onRowEdit}" update=":frmFactura:tablaProductosFactura :frmFactura:gripTotalFactura"/>
+                            <p:ajax event="rowEditCancel" listener="#{factura.onRowEditCancel}"  update=":frmFactura:tablaProductosFactura :frmFactura:gripTotalFactura"/>
+
+
+                            <p:column headerText="Nombre" style=" width: 300px;">
+                                <h:inputTextarea value="#{item.nombrepro}" style=" width: 290px;"/>
+                            </p:column>
+
+                            <p:column headerText="Precio" style="text-align: center;">
+                                <h:inputText value="#{item.precioventa}" style="text-align: center; width: 100px; color: #000;">
+                                    <p:ajax  event="keyup" update="out :frmFactura:gripTotalFactura" listener="#{factura.calcular()}" />
+                                </h:inputText>                    
+                            </p:column>
+                            <p:column headerText="Cantidad" style="text-align: center; width: 100px;">
+                                <h:inputText value="#{item.cantidad}" style="text-align: center; width: 60px; color: #000;">
+                                    <p:ajax  event="keyup" update="out :frmFactura:gripTotalFactura" listener="#{factura.calcular()}" />
+                                </h:inputText>                    
+                            </p:column>
+                            <p:column headerText="Total" style="text-align: center;">
+                                S./ 
+                                <h:outputText id="out" value="#{factura.calculaIva(item.total)}"/>
+                            </p:column>
+                            <p:column  style="text-align: center;">
+                                <p:commandButton value="Retirar " ajax="true" styleClass="btn btn-danger"  actionListener="#{factura.retirarListaVentaDetalle(item.nombrepro)}"
+                                                 update=":frmFactura:tablaProductosFactura :frmFactura:gripTotalFactura"/>
+                            </p:column>
+                            <br></br>
+
+                        </p:dataTable>
+                        <p:separator/>
+
+                        <h:panelGrid  id="gripTotalFactura" columns="2" style="font-size: 24px; margin: 0 auto;">
+                            Total Venta  $
+                            <p:outputLabel value="#{factura.factura.preciototal}"/>
+                        </h:panelGrid>
+
+                        <p:separator/>
+                        <p:commandButton value="Agregar productos" oncomplete="PF('dilogoProductos').show();" style=" width: 200px; height: 45px;"
+                                         update=":frmMenu"
+                                         disabled="#{!factura.enabled}"/>
+
+                        <p:commandButton value="Registrar" actionListener="#{factura.generarFactura()}"    disabled="#{!factura.enabled}"                                     
+                                         ajax="false"  style=" width: 150px; height: 45px;" />
+
+                        <p:commandButton value="Imprimr" style=" width: 150px; height: 45px;" onclick="imprimir()" 
+                                         update=":frmFactura :frmImprime:tbl" action="#{factura.limpiarFactura()}" 
+                                         disabled="#{!factura.enabled}"/>
+                        <p:commandButton value="Cancelar" action="#{factura.limpiarFactura()}"      disabled="#{!factura.enabled}"
+                                         style=" width: 150px; height: 45px;"
+                                         update=":frmFactura">
+                        </p:commandButton>
+                    </p:panel>
+
+
+
+                </h:form>
+
+                <!--dialogo para mstrar los clientes-->
+                <p:dialog id="dlgCliente" widgetVar="dilogoCliente"   modal="true" showEffect="explode" resizable="false" hideEffect="explode">
+                    <h:form id="frmCliente"  style="color: #000000">
+                        <p:dataTable id="tablaClientes" style="width: 650px; font-size: 12px;" scrollable="true" scrollHeight="150" 
+                                     var="cl" value="#{factura.allClientes}" emptyMessage="No hay datos de clientes">
+
+                            <p:column headerText="codigo">
+                                <h:outputText value="#{cl.idcliente}"/>
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{cl.nombre}"/>
+                            </p:column>
+                            <p:column headerText="Apellido">
+                                <h:outputText value="#{cl.apellidos}"/>
+                            </p:column>
+                            <p:column headerText="Direccion">
+                                <h:outputText value="#{cl.direccion}"/>
+                            </p:column>
+                            <p:column headerText="seleccionar">
+                                <p:commandButton value="seleccionar" actionListener="#{factura.agregarDatosCliente(cl.idcliente)}"
+                                                 oncomplete="PF('dilogoCliente').hide();"
+                                                 update=":frmFactura:gripDatosClintes">
+                                </p:commandButton>
+
+                            </p:column>
+
+                        </p:dataTable>
+                        <p:commandButton value="Cerrar" onclick="PF('dilogoCliente').hide();"/>
+                    </h:form>
+                </p:dialog>
+                <!--dialogo para mstrar los Pagos-->
+                <p:dialog id="dlgPagos" widgetVar="dilogoPagos"   modal="true" showEffect="explode" resizable="false" hideEffect="explode">
+                    <h:form id="frmPagos"  style="color: #000000">
+                        <p:dataTable id="tablaPagos" style="width: 650px; font-size: 12px;" scrollable="true" scrollHeight="150" 
+                                     var="pg" value="#{factura.allPagos}" emptyMessage="No hay datos de clientes">
+
+                            <p:column headerText="codigo">
+                                <h:outputText value="#{pg.idformaPago}"/>
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:outputText value="#{pg.nombre}"/>
+                            </p:column>
+                            <p:column headerText="seleccionar">
+                                <p:commandButton value="seleccionar" actionListener="#{factura.agregarPagos(pg.idformaPago)}"
+                                                 oncomplete="PF('dilogoPagos').hide();"
+                                                 update=":frmFactura:gripDatosPagos">
+                                </p:commandButton>
+
+                            </p:column>
+
+                        </p:dataTable>
+                        <p:commandButton value="Cerrar" onclick="PF('dilogoPagos').hide();"/>
+                    </h:form>
+                </p:dialog>
+                <!--dialogo para mostar los productos-->
+                <p:dialog id="dlgProductos" widgetVar="dilogoProductos"   modal="true" showEffect="explode" resizable="false" hideEffect="explode">
+                    <h:form id="frmMenu">
+                        <p:dataTable id="tablaProductos" style="width: 650px; font-size: 12px;" scrollable="true" scrollHeight="150" 
+                                     var="cl" value="#{factura.allProducto}" emptyMessage="No hay datos de Productos">
+
+                            <p:column headerText="NOMBRE">
+                                <h:outputText value="#{cl.nombre}"/>
+                            </p:column>
+
+                            <p:column>
+                                <p:commandButton value="Agregar" actionListener="#{factura.seleccioneProducto(cl.idproductos)}"
+                                                 oncomplete="PF('dilogoProductos').hide();"
+                                                 update=":frmFactura:tablaProductosFactura :frmFactura:gripTotalFactura"/>
+                            </p:column>
+                        </p:dataTable>
+
+
+                        <p:commandButton value="Cerrar" onclick="PF('dilogoProductos').hide();" style="margin-top: 10px;"/>
+                    </h:form>
+                </p:dialog>
+
+
+
+                <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+
+                    <div id="imprimeDiv" class="panel-body" style="margin-top: 700px">
+                        <h:form  id="frmImprime" styleClass="form-group" >
+                            <p:dataTable id="tbl" var="lista" value="#{factura.listaFactura}">
+                                <f:facet   name="header">
+
+                                    <h2>   
+                                        <a>
+                                            <img class="logotipo" alt="Brand" src="/JUBAL/resources/imagenes/imgJubal.jpg" width="150" height="55" style="background: #fff;"></img>
+                                        </a>
+                                        VIDRIOS JUBAL S.A.S 
+
+                                        <h6>Vidrios de 2 a 19 mm -
+                                            Divisiones para baño en vidrio templado o aluminio -
+                                            Acrilico persianas verticales y horizontales<br></br> Cortineros 
+                                            Mosquiteros en aluminio- Espejos tallados y todo lo relacionado con Ventaneria y puertas en aluminio arquitetonico <br></br>
+                                            Fachada en vidrio templado</h6>
+                                    </h2>   
+
+                                    RODRIGO  NIT: 6'645.506-5. <br></br>  
+                                    Direccion: calle 31 # 22-39 Barrio Centro  Palmira(valle). <br></br>     
+                                    Telefono: 2724344  2727212   FAX: 2735154.   email:vidriosjubal@hotmail.com<br></br> 
+
+                                </f:facet>
+
+                                <p:columnGroup  type="header">
+                                    <p:row>
+                                        <p:column colspan="1" headerText=" Factura de venta  N° #{factura.factura.idfacturas}" />
+                                        <p:column colspan="1" headerText="Fecha: #{factura.convertFecha(factura.factura.fechaventa)}"/>
+                                        <p:column colspan="1" headerText="Fecha Plazo: #{factura.convertFecha(factura.factura.fechaPlazo)}"/>
+                                        <p:column colspan="1" headerText="Forma Pago : #{factura.factura.formapago.nombre}"/>
+                                    </p:row>
+                                    <p:row>
+                                        <p:column colspan="2" headerText="cliente: #{factura.factura.cliente.nombre} #{factura.factura.cliente.apellidos}" />
+                                        <p:column colspan="1" headerText="Doc N°:  #{factura.factura.cliente.numeroDocumentoC}" />
+                                        <p:column colspan="1" headerText="Tel: #{factura.factura.cliente.telefono}" />
+                                    </p:row>
+                                    <p:row>
+                                        <p:column colspan="2" headerText="Email : #{factura.factura.cliente.correoElectronico}" />
+                                        <p:column colspan="2" headerText="Direccion #{factura.factura.cliente.direccion}" />
+                                    </p:row>
+                                    <p:row>
+                                        <p:column colspan="2" headerText="Empleado: #{factura.factura.empleado.nombre} #{factura.factura.empleado.apellidos}" />
+                                        <p:column colspan="2" headerText="" />
+
+                                    </p:row>
+                                    <p:row>
+                                        <p:column headerText="Nombre producto" />
+                                        <p:column headerText="Precio unitario" />
+                                        <p:column headerText="Cantidad" />
+                                        <p:column headerText="Subtotal" />
+                                    </p:row>
+                                </p:columnGroup>
+
+                                <p:column  headerText="Nombre producto">
+                                    <h:outputText value="#{lista.nombrepro}" />
+                                </p:column>
+                                <p:column  headerText="Precio de venta">
+                                    <h:outputText value="#{lista.precioventa}" />
+                                </p:column>
+                                <p:column  headerText="Cantidad">
+                                    <h:outputText value="#{lista.cantidad}" />
+                                </p:column>
+                                <p:column  headerText="Total">
+                                    <h:outputText value="#{lista.total}">
+                                        <f:convertNumber type="currency" currencySymbol="$" />
+                                    </h:outputText>
+                                </p:column>
+
+                                <p:columnGroup type="footer" >
+                                    <p:row>
+                                        <p:column  footerText=" " />
+                                        <p:column footerText="Subtotal $:#{factura.factura.subtotal}" />
+                                        <p:column footerText="Iva $:#{factura.factura.iva}"/>
+                                        <p:column footerText="Total $:#{factura.factura.preciototal}"/>
+
+                                    </p:row>
+                                    <p:row>
+                                        <p:column colspan="4" footerText="Resolucion DIAN:1111 de 2015-02-10  Numeracion de :20000 al 50000" />
+
+
+                                    </p:row>
+                                </p:columnGroup>
+
+
+                            </p:dataTable>
+
+                        </h:form>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+            </ui:define>
+
+            <ui:define name="bottom">
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

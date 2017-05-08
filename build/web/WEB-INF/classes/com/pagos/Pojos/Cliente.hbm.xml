@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 1/05/2017 01:09:14 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.pagos.Pojos.Cliente" table="cliente" catalog="pagos" optimistic-lock="version">
+        <id name="idcliente" type="java.lang.Integer">
+            <column name="idcliente" />
+            <generator class="identity" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="45" not-null="true" />
+        </property>
+        <property name="apellidos" type="string">
+            <column name="apellidos" length="45" />
+        </property>
+        <property name="numeroDocumentoC" type="string">
+            <column name="numeroDocumentoC" length="15" not-null="true" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" length="15" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" length="45" />
+        </property>
+        <property name="fechaRegistro" type="timestamp">
+            <column name="fechaRegistro" length="19" />
+        </property>
+        <property name="ocupacion" type="string">
+            <column name="ocupacion" length="95" />
+        </property>
+        <property name="codigo" type="string">
+            <column name="codigo" length="5" />
+        </property>
+        <set name="abonoses" table="abonos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idcliente" not-null="true" />
+            </key>
+            <one-to-many class="com.pagos.Pojos.Abonos" />
+        </set>
+    </class>
+</hibernate-mapping>

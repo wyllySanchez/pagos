@@ -1,0 +1,203 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+
+
+    </h:head>
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="top">
+                <h:form id="formReporteFechas">
+                    <p:growl id="mensajeGeneral" showDetail="true"/>
+                    <center> <h3>REPORTE BALANCES GENERAL</h3></center>
+                    <div class="container-fluid">
+                        <div class="container">
+
+
+                            <div class="panel-body">
+                                <h:form  styleClass="form-group" >
+                                    <p:growl id="growl" showDetail="true" sticky="true" />  
+                                    <p:panelGrid columns="6">
+                                        <h:outputLabel  value="Fecha Inicio" />                                
+                                        <p:calendar id="FechaInicio" label="yyyy/mm/dd" pattern="yyyy/MM/dd" showOn="button" value="#{mbBalances.fechaInicio}" />
+
+
+                                        <h:outputLabel  value="FechaFin" />                                
+                                        <p:calendar id="FechaFinal" label="yyyy/mm/dd" pattern="yyyy/MM/dd" showOn="button" value="#{mbBalances.fechaFin}" />
+
+
+
+                                        <h:commandButton styleClass="btn btn-success " value="Agregar" actionListener="#{mbBalances.consultarVentas}" >
+                                            <p:ajax process="@this @form" update=":formReporteFechas:tbl1 :formReporteFechas:tbl2 :formReporteFechas:tbl3 :formReporteFechas:tbl4"
+                                                    />
+                                        </h:commandButton>
+                                        <a onclick="imprimir()" class="btn btn-warning " >Imprimir</a>
+                                    </p:panelGrid>
+                                </h:form>
+
+
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                            <div id="imprimeDiv" class="container">
+
+                                <br></br>
+                                <p:dataTable id="tbl1" var="lista1" value="#{mbBalances.listAbonosByFecha}">
+                                    <f:facet   name="header">
+                                        <h4>PRESTAMOS INICIALES</h4>
+                                    </f:facet>
+
+                                    <p:column  headerText="Codigo" >
+                                        <h:outputText value="#{lista1.idabonos}" />
+                                    </p:column>
+                                    <p:column  headerText="Cliente" >
+                                        <h:outputText value="#{mbCliente.getById(lista1.cliente.idcliente).getNombre()} #{mbCliente.getById(lista.cliente.idcliente).getApellidos()}" />
+                                    </p:column>
+                                    <p:column headerText="Empleado" >
+                                        <h:outputText value="#{beanEmpleado.getById(lista1.empleado.idempleado).getNombre()} #{beanEmpleado.getById(lista.empleado.idempleado).getApellidos()}" />
+                                    </p:column>
+                                    <p:column  headerText="Fecha" >
+                                        <h:outputText value="#{lista1.fecharegistro}" />
+                                    </p:column>
+
+                                    <p:column  headerText="Valor Venta" >
+                                        <h:outputText value="#{lista1.precioTotal}" />
+                                    </p:column>
+
+                                    <p:columnGroup type="footer">
+                                        <p:row>
+                                            <p:column colspan="3" footerText=""/>
+                                            <p:column colspan="2" footerText="TOTAL PRESTAMOS $:#{mbBalances.totalAbonosFecha}"/>
+
+                                        </p:row>
+
+                                    </p:columnGroup>  
+                                </p:dataTable>
+                                <br></br>
+                                <p:dataTable id="tbl2" var="lista2" value="#{mbBalances.listAbonoSecundarioByFecha}">
+                                    <f:facet   name="header">
+                                        <h4>LISTA CUOTAS ABONADAS</h4>
+                                    </f:facet>
+                                    <p:column  headerText="Cobrador" >
+                                        <h:outputText value="#{beanEmpleado.getById(lista2.empleado.idempleado).getNombre()} #{beanEmpleado.getById(lista2.empleado.idempleado).getApellidos()}" />
+                                    </p:column>
+                                    <p:column  headerText="Codigo Cliente ">
+                                        <h:outputText value="#{lista2.abonos.idabonos}" />
+                                    </p:column>
+
+                                    <p:column  headerText="Fecha" >
+                                        <h:outputText value="#{lista2.fechaRegistro}" />
+                                    </p:column>
+
+                                    <p:column  headerText="Valor Abono " >
+                                        <h:outputText value="#{lista2.valorAbono}" />
+                                    </p:column>
+
+                                    <p:columnGroup type="footer">
+                                        <p:row>
+                                            <p:column colspan="2" footerText=""/>
+                                            <p:column colspan="2" footerText="TOTAL  CUOTAS ABONOS $:#{mbBalances.totalAbonoSecundarioFecha}"/>
+
+                                        </p:row>
+
+                                    </p:columnGroup>  
+                                </p:dataTable>
+                                <br></br>
+                                <p:dataTable id="tbl3" var="lista3" value="#{mbBalances.listaCajaByFecha}">
+                                    <f:facet   name="header">
+                                        <h4>LISTA DINERO DEPOSITADO</h4>
+                                    </f:facet>
+                                    <p:column  headerText="Empleado" >
+                                        <h:outputText value="#{beanEmpleado.getById(lista3.empleado.idempleado).getNombre()} #{beanEmpleado.getById(lista3.empleado.idempleado).getApellidos()}" />
+                                    </p:column>
+                                    <p:column  headerText="Codigo  ">
+                                        <h:outputText value="#{lista3.idcaja}" />
+                                    </p:column>
+                                    <p:column  headerText="Valor Depositado " >
+                                        <h:outputText value="#{lista3.valor}" />
+                                    </p:column>
+                                    <p:column  headerText="Fecha" >
+                                        <h:outputText value="#{lista3.fecha}" />
+                                    </p:column>
+
+
+
+                                    <p:columnGroup type="footer">
+                                        <p:row>
+                                            <p:column colspan="2" footerText=""/>
+                                            <p:column colspan="2" footerText="TOTAL DINERO $:#{mbBalances.totalCajaFecha}"/>
+
+                                        </p:row>
+
+                                    </p:columnGroup>  
+                                </p:dataTable>
+                                <br></br>
+                                <p:dataTable id="tbl4" var="lista4" value="#{mbBalances.listaGastosByFecha}">
+                                    <f:facet   name="header">
+                                        <h4>GASTOS</h4>
+                                    </f:facet>
+                                    <p:column headerText="Cobrador" >
+                                        <h:outputText value="#{beanEmpleado.getById(lista4.empleado.idempleado).getNombre()}" />
+                                    </p:column>
+                                    <p:column  headerText="Factura Compra" >
+                                        <h:outputText value="#{lista4.importe}" />
+                                    </p:column>
+
+                                    <p:column  headerText="Detalle Gasto" >
+                                        <h:outputText value="#{lista4.nombre}" />
+                                    </p:column>
+                                    <p:column  headerText="Fecha" >
+                                        <h:outputText value="#{lista4.fecha}"/>
+                                    </p:column>
+                                    <p:column  headerText="Valor" >
+                                        <h:outputText value="#{lista4.valor}" />
+                                    </p:column>
+
+                                    <p:columnGroup type="footer">
+                                        <p:row>
+
+                                            <p:column footerText=""/>
+                                            <p:column colspan="2" footerText=""/>
+                                            <p:column colspan="2" footerText="TOTAL GASTOS $:#{mbBalances.totalGastosFecha}"/>
+
+                                        </p:row>
+                                        <p:row>
+                                            <p:column  colspan="5" footerText="x"/>
+
+                                        </p:row>
+                                        <p:row>
+
+                                            <p:column footerText="CAJA :#{mbBalances.totalCajaFecha}"/>
+                                            <p:column footerText="PRESTAMOS :#{mbBalances.totalAbonosFecha}"/>
+                                            <p:column footerText="CUOTAS ABONODAS  :#{mbBalances.totalAbonoSecundarioFecha}"/>
+                                            <p:column footerText="GASTOS :#{mbBalances.totalGastosFecha}"/>
+                                            <p:column footerText="TOTAL BALANCE $:#{mbBalances.totalBalance}"/>
+
+                                        </p:row>
+                                    </p:columnGroup>  
+
+                                </p:dataTable>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="bottom">
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

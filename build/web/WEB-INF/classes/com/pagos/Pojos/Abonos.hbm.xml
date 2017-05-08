@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 1/05/2017 01:09:14 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.pagos.Pojos.Abonos" table="abonos" catalog="pagos" optimistic-lock="version">
+        <id name="idabonos" type="java.lang.Integer">
+            <column name="idabonos" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="cliente" class="com.pagos.Pojos.Cliente" fetch="select">
+            <column name="idcliente" not-null="true" />
+        </many-to-one>
+        <many-to-one name="empleado" class="com.pagos.Pojos.Empleado" fetch="select">
+            <column name="idempleado" not-null="true" />
+        </many-to-one>
+        <many-to-one name="ruta" class="com.pagos.Pojos.Ruta" fetch="select">
+            <column name="idruta" />
+        </many-to-one>
+        <property name="precioTotal" type="java.lang.Long">
+            <column name="precioTotal" />
+        </property>
+        <property name="saldofinal" type="java.lang.Long">
+            <column name="saldofinal" />
+        </property>
+        <property name="fecharegistro" type="timestamp">
+            <column name="fecharegistro" length="19" />
+        </property>
+        <property name="fechaPlazo" type="date">
+            <column name="fechaPlazo" length="10" />
+        </property>
+        <property name="estado" type="string">
+            <column name="estado" length="25" />
+        </property>
+        <property name="cuota" type="java.lang.Integer">
+            <column name="cuota" />
+        </property>
+        <property name="totalCuotas" type="java.lang.Integer">
+            <column name="totalCuotas" />
+        </property>
+        <property name="valorCuota" type="java.lang.Long">
+            <column name="valorCuota" />
+        </property>
+        <property name="cuotaVencida" type="java.lang.Integer">
+            <column name="cuotaVencida" />
+        </property>
+        <set name="abonosecundarios" table="abonosecundario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idabonos" not-null="true" />
+            </key>
+            <one-to-many class="com.pagos.Pojos.Abonosecundario" />
+        </set>
+    </class>
+</hibernate-mapping>

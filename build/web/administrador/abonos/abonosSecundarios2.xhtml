@@ -1,0 +1,216 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+
+      xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="top">
+
+
+
+                <h:form id="frmAbonos">
+                    <p:growl id="mensajeGeneral" showDetail="true" autoUpdate="true" life="3000"/>
+                    <p:panel header=""  style="width: 1100px;text-align: center; margin: 0 auto;" >
+                        <p:layout id="capaDatosClientesFactura" style="width: 100%; height: 52px;">
+                            <p:layoutUnit id="DatosCliente" position="center" style="padding: 5px; 
+                                          font-size: 14px; text-align: justify" size="50">
+
+                                <h:panelGrid id="gripBuscarDatosClintes" columns="3">                                     
+                                    <p:outputLabel id="txtBuscarCliente" value="Digitar  Numero Documento:  " style="font-weight: bold; margin-right:15px;"/>
+                                    <h:inputText styleClass="form-control" value="#{mbAbonoSecundario.numeroDocumento}"/>
+                                    <h:commandButton styleClass="btn btn-block btn-success" value="Buscar"  actionListener="#{mbAbonoSecundario.searchByDocumento()}" style="margin-left: 20px;"></h:commandButton>
+                                    
+                                   <!-- <p:outputLabel id="txtBuscar" value="Digitar Codigo:  " style="font-weight: bold; margin-left: 45px;"/>
+                                     <h:inputText styleClass="form-control" value="# {mbAbonoSecundario.codigo}"/>
+                                     <h:commandButton styleClass="btn btn-block btn-warning" value="Buscar"  actionListener="# {mbAbonoSecundario.searchByCodigoClente()}" style="margin-left: 20px;"></h:commandButton>
+                                    -->
+                                </h:panelGrid>
+
+
+                            </p:layoutUnit>
+                        </p:layout>
+                        <br></br>
+
+                        <p:dataTable id="tablaProductosFactura" style="width: 98% !important;margin-left: 5px;" value="#{mbAbonoSecundario.listaAbonos}" 
+                                     paginator="true" rows="6" var="item">
+
+                            <p:columnGroup  type="header">
+                                <p:row>
+                                    <p:column colspan="3" headerText="cliente: #{mbAbonoSecundario.cliente.nombre} #{mbAbonoSecundario.cliente.apellidos}" />
+                                    <p:column colspan="2" headerText="Documento: #{mbAbonoSecundario.cliente.numeroDocumentoC}" />
+                                    <p:column colspan="3" headerText="Telefono: #{mbAbonoSecundario.cliente.telefono}"/>
+                                    <p:column colspan="3" headerText="Direccion: #{mbAbonoSecundario.cliente.direccion}"/>
+
+                                </p:row>
+
+
+                                <p:row>
+                                    <p:column headerText="Codigo Cliente #:" />
+                                    <p:column headerText="Fecha" />
+                                    <p:column headerText="Valor Prestamo" />
+
+                                    <p:column headerText="N° cuotas" />
+                                    <p:column headerText="Valor Cuota" />
+                                    <p:column headerText="Saldo Final" />
+                                    <p:column headerText="Cuota Atual" />
+                                    <p:column headerText="Cuota Vencidas" />
+                                    <p:column headerText="Estado" />
+                                    <p:column headerText="Registrar" />
+                                    <p:column headerText="Ver Mas" />
+
+
+
+                                </p:row>
+                            </p:columnGroup>
+
+                            <p:column >
+                                #{item.idabonos}
+                            </p:column>
+                            <p:column >
+                                #{mbAbonos.convertFecha(item.fecharegistro)}
+                            </p:column>
+                            <p:column >
+                                #{item.precioTotal}
+                            </p:column>
+
+                            <p:column >
+                                #{item.totalCuotas}
+                            </p:column>
+                            <p:column headerText="Saldo Final">
+                                #{item.valorCuota}
+                            </p:column>
+                            <p:column >
+                                #{item.saldofinal}
+                            </p:column>
+                            <p:column headerText="cuota">
+                                #{item.cuota}
+                            </p:column>
+                            <p:column headerText="cuota vencida">
+                                #{item.cuotaVencida}
+                            </p:column>
+                            <p:column headerText="estado">
+                                #{item.estado}
+                            </p:column>
+                            <p:column headerText="Abono secundario">
+                                <h:commandButton  pa:data-toggle="modal" pa:data-target="#myModal" value="Registar" class="btn btn-success">
+                                    <f:ajax listener="#{mbAbonoSecundario.selectAbono(item.idabonos)}" render="growl frmModal2" event="click" />
+                                </h:commandButton>
+                            </p:column>
+                            <p:column headerText="Abono secundario">
+                                <h:commandButton  pa:data-toggle="modal" pa:data-target="#myModal1" value="Ver mas" class="btn btn-danger">
+                                    <f:ajax listener="#{mbAbonoSecundario.BuscarBYcodigoAbonoSecundario(item.idabonos)}" render="growl frmEliminarSitio" event="click" />
+                                </h:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+
+                </h:form>
+
+                <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <h:form id="frmModal2" styleClass="modal-dialog"  role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Agregar Cuota y Valor </h4>
+                            </div>
+                            <div class="modal-body">
+                                <br></br>
+                                <label>Empleado</label>
+                                <h:selectOneMenu styleClass="input-sm col-xs-12" value="#{mbAbonoSecundario.codigoEmpleado}"  required="true" style="margin-top: 5px" >
+                                    <f:selectItem itemLabel="Empleado Cobrador" itemValue="1" />
+                                    <f:selectItems value="#{beanEmpleado.all}" var="empleado" itemLabel="#{empleado.nombre}" itemValue="#{empleado.idempleado}" />
+                                </h:selectOneMenu>
+                                <br></br>
+                                <label style="margin-top: 10px">Ingrese el valor del abono</label>
+                                <h:inputText styleClass="form-control" pa:type="text" value="#{mbAbonoSecundario.abonosecundario.valorAbono}"></h:inputText>
+                                <br></br>
+                    
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                <h:commandButton value="Guardar Cambios" styleClass="btn btn-success" actionListener="#{mbAbonoSecundario.save()}">
+                                </h:commandButton>
+                                <h:commandButton value="No pago" styleClass="btn btn-success" actionListener="#{mbAbonoSecundario.noPago()}">
+                                </h:commandButton>
+                            </div>
+                        </div>
+
+                    </h:form>
+                </div>
+
+
+                <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" >
+                    <h:form id="frmEliminarSitio" styleClass="modal-dialog"  role="document" style="width: 1000px;">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color: red"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Detalle pago Cuota</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p:dataTable style="width: 98% !important;margin-left: 5px;" value="#{mbAbonoSecundario.listaAbonoSecundario}" var="item" emptyMessage="No existen Abonos">
+                                    <f:facet   name="header">
+
+                                        <h2>   
+
+                                            PRESTAMOS
+
+                                        </h2>   
+
+                                    </f:facet>
+
+                                    <p:column headerText="Codigo Cliente">
+                                        <h:outputText value="#{item.abonos.idabonos}"/>
+                                    </p:column>
+
+
+                                    <p:column headerText="Valor Abonado" >
+                                        <h:outputText value="#{item.valorAbono}"/>
+                                    </p:column>
+                                    <p:column headerText="Cuota N°:" >
+                                        <h:outputText value="#{item.cuota}"/>
+                                    </p:column>
+                                    <p:column headerText="Saldo pendiente" >
+                                        <h:outputText value="#{item.saldoTotaL}"/>
+                                    </p:column>
+                                    <p:column headerText="Cobrador">
+                                        <h:outputText value="#{beanEmpleado.getById(item.empleado.idempleado).getNombre()}"/>
+                                    </p:column>
+
+                                    <p:column headerText="Fecha">
+                                             #{mbAbonoSecundario.convertFecha(item.fechaRegistro)}
+                                    </p:column>
+
+                                </p:dataTable>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+                            </div>
+                        </div>
+
+                    </h:form>
+                </div>
+
+
+
+            </ui:define>
+
+            <ui:define name="bottom">
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

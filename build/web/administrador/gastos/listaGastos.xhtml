@@ -1,0 +1,66 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="content">
+                <div class="container">
+
+
+                    <h:form id="frmListaVenta">
+                        <p:growl id="mensajeGeneral" showDetail="true" sticky="false" />
+                        <p:dataTable id="tablaListaProductos" var="item" value="#{mBGastos.all}" paginator="true" rows="8" selection="#{mBGastos.gasto}" selectionMode="single" rowKey="#{item.idgasto}" filteredValue="#{mBGastos.listaGastoFiltrado}">
+
+
+                            <f:facet name="header">
+                                <h2>Lista de Ventas</h2>
+                            </f:facet>
+                            <p:column headerText="Codigo" style="width: 80px;">
+                                <h:outputText value="#{item.idgasto}"/>
+                            </p:column>
+                            <p:column headerText="Empleado">
+                                <h:outputText value="#{beanEmpleado.getById(item.empleado.idempleado).getNombre()}"/>
+                            </p:column>
+                            <p:column headerText="Factura">
+                                <h:outputText value="#{item.importe}" style="width: 80px;"/>
+
+                            </p:column>
+                            <p:column headerText="Descripcion" style="width: 400px;">
+                                <h:outputText value="#{item.nombre}"/>
+
+                            </p:column>
+
+                            <p:column headerText="Valor">
+                                <h:outputText value="#{item.valor}" style="width: 120px;"/>
+
+                            </p:column>
+                            <p:column headerText="Fecha" filterBy="fecha">
+                                <h:outputText value="#{item.fecha}"/>
+
+                            </p:column>
+
+
+
+
+                        </p:dataTable>
+
+
+                    </h:form>
+                </div>
+            </ui:define>
+
+            <ui:define name="bottom">
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

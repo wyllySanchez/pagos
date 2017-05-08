@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="top">
+                <h:form id="frmAbonos">
+                    <p:growl id="mensajeGeneral" showDetail="true" autoUpdate="true" life="3000"/>
+                    <p:panel header=""  style="width: 900px;text-align: center; margin: 0 auto;" >
+                        <p:layout id="capaDatosClientesFactura" style="width: 100%; height: 52px;">
+                            <p:layoutUnit id="DatosCliente" position="center" style="padding: 5px; 
+                                          font-size: 14px; text-align: justify" size="50">
+
+                                <h:panelGrid id="gripBuscarDatosClintes" columns="3">                                     
+                                    <p:outputLabel id="txtBuscarCliente" value="Digite el Numero de Factura:  " style="font-weight: bold;"/>
+                                    <h:inputText styleClass="form-control" value="#{mbAbonos.codigoAbono}"/>
+                                    <h:commandButton styleClass="btn btn-block btn-info" value="Buscar"  actionListener="#{mbAbonos.searchByFactura()}"></h:commandButton>
+                                </h:panelGrid>
+
+
+                            </p:layoutUnit>
+                        </p:layout>
+                        <br></br>
+
+                        <p:dataTable id="tablaProductosFactura" style="width: 98% !important;margin-left: 5px;" value="#{mbAbonos.listaAbono}" var="item">
+
+                            <p:columnGroup  type="header">
+                                <p:row>
+                                    <p:column colspan="2" headerText="cliente: #{mbAbonos.cliente.nombre} #{beanDevoluciones.cliente.apellidocli}" />
+                                    <p:column colspan="2" headerText="Documento: #{mbAbonos.cliente.numeroDocumentoC}" />
+                                    <p:column colspan="1" headerText="Telefono: #{mbAbonos.cliente.telefono}"/>
+                                </p:row>
+                                <p:row>
+                                    <p:column colspan="2" headerText="Direccion: #{mbAbonos.cliente.direccion}"/>
+                                    <p:column colspan="3" headerText="Correo #{mbAbonos.cliente.correoElectronico}"/>
+                                </p:row>
+
+
+                                <p:row>
+                                    <p:column headerText="Cantidad" />
+                                    <p:column headerText="Nombre" />
+                                    <p:column headerText="precio" />              
+                                    <p:column headerText="Total" />
+                                      <p:column headerText="x" />
+
+
+
+                                </p:row>
+                            </p:columnGroup>
+
+                            <p:column headerText="Cantidad">
+                                <h:inputText value="#{item.cantidad}" style="text-align: center; width: 60px; color: #000;">
+                                    <p:ajax  event="keyup" update="out :frmAbonos:gripTotalAbono" listener="#{mbAbonos.calcular()}" />
+                                </h:inputText>   
+                            </p:column>
+                            <p:column headerText="Nombre">
+                                <h:inputText value="#{item.nombrepro}" style="width: 130px;"/>
+
+                            </p:column>
+
+                            <p:column headerText="Precio">
+                                <h:inputText value="#{item.precioventa}" style="text-align: center; width: 100px; color: #000;">
+                                    <p:ajax  event="keyup" update="out :frmAbonos:gripTotalAbono" listener="#{mbAbonos.calcular()}" />
+                                </h:inputText> 
+
+                            </p:column>
+
+                            <p:column headerText="Total" style="text-align: center;">
+                                $.
+                                <h:outputText id="out" value="#{item.total}"/>
+                            </p:column>
+                            <p:column  style="text-align: center;">
+                                <p:commandButton value="Retirar " ajax="true" styleClass="btn btn-danger"  actionListener="#{mbAbonos.retirarListaVentaDetalle(item.nombrepro)}"
+                                                 update=":frmAbonos:tablaProductosFactura :frmAbonos:gripTotalAbono"/>
+                            </p:column>
+
+                        </p:dataTable>
+                        <h:panelGrid  id="gripTotalAbono" columns="6" style="font-size: 20px; margin: 0 auto;">
+                            Valor Productos  $
+                            <p:outputLabel value="#{mbAbonos.abonos.precioTotal}" style="margin-right: 80px;"/>
+
+                        </h:panelGrid>
+
+                        <p:separator/>
+                        <p:commandButton value="agregar producto" oncomplete="PF('dilogoProductos').show();" 
+                                         update=":frmMenu" style=" width: 180px; height: 45px;"/>
+                        <p:commandButton value="Registrar" actionListener="#{mbAbonos.actualizarAbono()}"                                  
+                                         ajax="false"  style=" width: 150px; height: 45px;" />
+
+                        <p:commandButton value="Imprimir" style=" width: 130px; height: 45px;" onclick="imprimir()" 
+                                         action="#{mbAbonos.limpiarAbonos()}"  />   
+
+                        <p:commandButton value="Cancelar" action="#{mbAbonos.limpiarAbonos()}"
+                                         style=" width: 130px; height: 45px;"
+                                         update=":frmAbonos">
+                        </p:commandButton>
+                        <p:dataTable id="tablaImprime" style="display:none;width: 0px;height: 0px;">
+                            <p:column></p:column>
+                        </p:dataTable>
+
+                    </p:panel>
+
+                </h:form>
+
+
+
+
+            </ui:define>
+
+            <ui:define name="bottom">
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

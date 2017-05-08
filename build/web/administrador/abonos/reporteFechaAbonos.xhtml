@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="content">
+                <h:form id="formReporteFechas">
+                    <p:growl id="mensajeGeneral" showDetail="true"/>
+                    <center> <h2>REPORTE PRESTAMOS</h2></center> 
+
+                    <div class="container">
+                        <div class="container">
+
+
+                            <div class="panel-body">
+                                <h:form  styleClass="form-group" >
+                                    <p:growl id="growl" showDetail="true" sticky="true" />  
+                                    <p:panelGrid columns="6">
+                                        <h:outputLabel  value="Fecha Inicio" />                                
+                                        <p:calendar id="FechaInicio" label="yyyy/mm/dd" pattern="yyyy/MM/dd" showOn="button" value="#{mbAbonos.fechaInicio}" />
+
+
+                                        <h:outputLabel  value="FechaFin"/>                                
+                                        <p:calendar id="FechaFinal" label="yyyy/mm/dd" pattern="yyyy/MM/dd" showOn="button" value="#{mbAbonos.fechaFin}" />
+
+
+
+                                        <h:commandButton styleClass="btn btn-success" value="Consultar Ventas" actionListener="#{mbAbonos.consultarVentas}" >
+                                            <p:ajax process="@this @form" update=":formReporteFechas:tbl"/>
+                                        </h:commandButton>
+                                        <a onclick="imprimir()" class="btn btn-warning ">Imprimir</a>
+                                    </p:panelGrid>
+                                </h:form>
+
+
+                            </div>
+                        </div>
+                        <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12">
+                            <div id="imprimeDiv">
+                                <p:dataTable id="tbl" var="lista" value="#{mbAbonos.listVentasByFecha}">
+                                    <f:facet   name="header">
+
+                                        <h2>   
+                                            PRESTAMOS INICIALES
+                                        </h2>   
+                                    </f:facet>
+
+                                    <p:column headerText="Cliente" >
+                                        <h:outputText value="#{mbCliente.getById(lista.cliente.idcliente).getNombre()} #{mbCliente.getById(lista.cliente.idcliente).getApellidos()}" />
+                                    </p:column>
+                                       <p:column  headerText="Valor" >
+                                        <h:outputText value="#{lista.precioTotal}" />
+                                    </p:column>
+                                       <p:column  headerText="N° Cuotas" >
+                                           <h:outputText value="#{lista.totalCuotas}" />
+                                    </p:column>
+                                    <p:column  headerText="Fecha" >
+                                        <h:outputText value="#{lista.fecharegistro}" />
+                                    </p:column>
+                                    <p:column  headerText="Fecha fin" >
+                                        <h:outputText value="#{lista.fechaPlazo}" />
+                                    </p:column>
+                                 
+
+                                    <p:columnGroup type="footer">
+                                        <p:row >
+
+                                            <p:column  colspan="2" footerText=""/>
+                                            <p:column colspan="3" footerText="Total Monto Prestado $:#{mbAbonos.totalVentasFecha}"/>
+
+                                        </p:row>
+
+                                    </p:columnGroup>
+
+                                </p:dataTable>
+                            </div>
+                        </div>
+                        <div class="row">
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="bottom">
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

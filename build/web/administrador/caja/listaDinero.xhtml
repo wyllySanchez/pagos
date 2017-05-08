@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="top">
+                <div class="container">
+                    <h:form id="frmListaCaja">
+                        <p:growl id="mensajeGeneral" showDetail="true" sticky="false" />
+                        <p:dataTable id="tablaListaCaja" var="item" value="#{mbCaja.all}" paginator="true" rows="8" selection="#{mbCaja.caja}" selectionMode="single" rowKey="#{item.idcaja}" filteredValue="#{mbCaja.listaCajaFiltrado}">
+
+
+                            <f:facet name="header">
+                                <h2>Lista de Dineros Registrados</h2>
+                            </f:facet>
+                            <p:column headerText="Codigo" >
+                                <h:outputText value="#{item.idcaja}"/>
+                            </p:column>
+
+                            <p:column headerText="Empleado">
+                                <h:outputText value="#{beanEmpleado.getById(item.empleado.idempleado).getNombre()} #{beanEmpleado.getById(item.empleado.idempleado).getApellidos()}"/>
+
+                            </p:column>
+                            <p:column headerText="Monto" filterBy="nombre">
+                                <h:outputText value="#{item.valor}"/>
+
+                            </p:column>
+                            <p:column headerText="Fecha Registro" filterBy="fecha">
+                                <h:outputText value="#{item.fecha}"/>
+                            </p:column>
+
+
+                        </p:dataTable>
+
+
+                    </h:form>
+                </div>
+            </ui:define>
+
+            <ui:define name="bottom">
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

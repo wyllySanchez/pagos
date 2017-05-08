@@ -1,0 +1,55 @@
+@charset "utf-8";
+/* CSS Document */
+*{
+    margin:0px;
+    padding:0px;}
+
+/*.color{
+    background-color:#00B0FF !important;
+    color:white !important;
+}
+body{
+    background-color: #269abc;
+}
+*/
+.bajar{
+    margin-top:10px;}
+
+
+#ventana{
+    width:200px;
+    height:200px;
+
+
+
+}
+body{
+   background-image: url(..//imagenes/moneda.jpg); 
+    background-attachment:fixed;
+    background-repeat:no-repeat;
+    background-size:100% ;
+    padding-top: 10px;
+    height: 100%;
+    color: white;
+}
+
+
+form{
+
+    background-color:#000;
+    border-radius: 10px;
+    color: white;
+    margin-left: 750px;
+     padding: 10px;
+}
+input{
+   border-radius: 15px;
+
+}
+h1{
+    color: #ffffff;
+}
+
+div {
+
+}
