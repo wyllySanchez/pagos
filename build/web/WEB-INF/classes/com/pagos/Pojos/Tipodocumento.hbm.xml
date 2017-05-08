@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 1/05/2017 01:09:14 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated 8/05/2017 04:50:18 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.pagos.Pojos.Tipodocumento" table="tipodocumento" catalog="pagos" optimistic-lock="version">
         <id name="idtipodocumento" type="int">
