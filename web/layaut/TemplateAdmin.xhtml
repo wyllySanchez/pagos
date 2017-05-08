@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/css/templatex.css"></link>
+        <link type="text/javascript" rel="stylesheet" href="#{request.contextPath}/resources/js/bootstrap.min.js"></link>
+        <h:outputScript name="imprime.js" library="js">        </h:outputScript>
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/css/balance.css"></link>
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/css/tabla.css"></link>
+        <link type="text/css" rel="stylesheet" href="#{request.contextPath}/resources/css/bootstrap.min.css"></link>
+        <title>PRESTAMOS</title>
+    </h:head>
+
+    <h:body>
+        <div id="top">
+            <nav role="navigation" class="navbar navbar-inverse navbar-fixed-top " >
+                <div class="container-fluid" id="menu-kids">
+                    <div class="navbar-header">
+                        <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle collapsed" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+
+
+                        <div id="navbarCollapse" class="navbar-collapse collapse" aria-expanded="false" style="height: 1px;">
+                            <ul class="nav navbar-nav">
+
+                                <li>
+                                    <p:outputLabel value="hola" rendered="false"></p:outputLabel>
+                                    <h:link outcome="/index.xhtml" value="Inicio">
+                                    </h:link>
+                                </li>
+
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Prestamos <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+
+                                        <li><h:link rendered="#{beanEmpleado.byCorreoElectronico.rol.idrol==1}" outcome="/administrador/abonos/registroAbono.xhtml" value="Registrar Prestamo"/></li>
+                                        <li><h:link rendered="#{beanEmpleado.byCorreoElectronico.rol.idrol==1}" outcome="/administrador/abonos/abonosSecundarios2.xhtml" value="Registrar Abonos"/></li> 
+
+                                        <li><h:link outcome="/administrador/abonos/listaAbonos.xhtml" value="Lista Prestamos"/></li> 
+                                        <li><h:link outcome="/administrador/abonos/abonoSecundarioFiltrado.xhtml" value=" lista Abonos "/></li> 
+                                        <li><h:link outcome="/administrador/abonos/reporteFechaAbonos.xhtml" value="reporte Prestamos Fecha"/></li>
+                                        <li><h:link outcome="/administrador/abonos/reporteAbonoSecundario.xhtml" value="reporte Pago Cuotas "/></li>
+                                        <li><h:link outcome="/administrador/abonos/balance.xhtml" value="Balances"/></li>
+                                        <li><h:link outcome="/administrador/abonos/imprimirRuta.xhtml" value="Imprimir Ruta Cobro"/></li>
+                                        <!--  <li><h:link outcome="/administrador/abonos/actualizarAbono.xhtml" value="Actualizar"/></li>
+                                          <li><h:link outcome="/administrador/abonos/imprimirFactura.xhtml" value="Imprimir Factura"/></li>
+                                             <li><h:link outcome="/administrador/abonos/abonosFiltrado.xhtml" value="Ventas por Cobrar"/></li>-->
+                                    </ul>
+                                </li>
+
+
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Clientes <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><h:link rendered="#{beanEmpleado.byCorreoElectronico.rol.idrol==1}" outcome="/administrador/clientes/registrarclientes.xhtml" value="Registrar Clientes"/></li>
+                                        <li><h:link rendered="#{beanEmpleado.byCorreoElectronico.rol.idrol==1}" outcome="/administrador/clientes/listaclientes.xhtml" value="lista Cambios Clientes"/></li>  
+                                        <li><h:link outcome="/administrador/clientes/clienteFiltrado.xhtml" value="lista Clientes Filtrado"/></li>         
+
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Caja <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li><h:link rendered="#{beanEmpleado.byCorreoElectronico.rol.idrol==1}" outcome="/administrador/caja/registroDinero.xhtml" value="Registrar Dinero"/></li>
+                                        <li><h:link rendered="#{beanEmpleado.byCorreoElectronico.rol.idrol==1}" outcome="/administrador/caja/actualizarDinero.xhtml" value="Actualizar Dinero"/></li>  
+                                        <li><h:link outcome="/administrador/caja/listaDinero.xhtml" value="Lista Dinero"/></li>         
+
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Gastos <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li> <h:link rendered="#{beanEmpleado.byCorreoElectronico.rol.idrol==1}" outcome="/administrador/gastos/registrarGasto.xhtml" value="Registrar Gasto"/> </li>
+                                        <li><h:link outcome="/administrador/gastos/listaGastos.xhtml"  value="lista Gastos"/></li>
+                                        <li><h:link outcome="/administrador/gastos/reporteFechaGastos.xhtml"  value="Reporte Gastos por Fecha"/></li>         
+
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Empleados <span class="caret"></span></a>
+                                    <ul class="dropdown-menu">
+                                        <li> <h:link rendered="#{beanEmpleado.byCorreoElectronico.rol.idrol==1}" outcome="/administrador/empleados/registrarEmpleado.xhtml" value="Registrar Empleado"/> </li>
+                                        <li><h:link outcome="/administrador/empleados/listaempleados.xhtml"  value="lista Empleados"/></li>
+                                        <li><h:link rendered="#{beanEmpleado.byCorreoElectronico.rol.idrol==1}" outcome="/administrador/empleados/empleadoFiltrado.xhtml"  value="empleado Filtrado"/></li>         
+
+                                    </ul>
+                                </li>
+
+
+
+                                <ul class="nav navbar-nav navbar-right" >
+                                    <h:form>
+                                        <p:outputLabel style="color: white;" value=" #{beanEmpleado.byCorreoElectronico.nombre} #{beanEmpleado.byCorreoElectronico.apellidos}"/>
+
+                                        <h:commandLink style="margin-right: 5px;"  action="#{mbLogin.cerrarSesion()}"   class="btn btn-danger navbar-btn" >Salir</h:commandLink>
+
+                                    </h:form>
+                                </ul>
+
+
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+
+
+
+
+            <ui:insert name="top"></ui:insert>
+
+
+            <div id="content" class="center_content">
+                <ui:insert name="content">
+
+
+
+                </ui:insert>
+            </div>
+
+            <ui:insert name="bottom"></ui:insert>
+
+
+            <!-- Latest compiled and minified JavaScript -->
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+        </div>
+
+    </h:body>
+
+</html>

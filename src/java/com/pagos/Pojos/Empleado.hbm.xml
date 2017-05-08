@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 1/05/2017 01:09:14 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.pagos.Pojos.Empleado" table="empleado" catalog="pagos" optimistic-lock="version">
+        <id name="idempleado" type="java.lang.Integer">
+            <column name="idempleado" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="rol" class="com.pagos.Pojos.Rol" fetch="select">
+            <column name="idrol" not-null="true" />
+        </many-to-one>
+        <many-to-one name="tipodocumento" class="com.pagos.Pojos.Tipodocumento" fetch="select">
+            <column name="idtipodocumento" />
+        </many-to-one>
+        <property name="numeroDocumento" type="string">
+            <column name="numeroDocumento" length="15" not-null="true" />
+        </property>
+        <property name="nombre" type="string">
+            <column name="nombre" length="45" not-null="true" />
+        </property>
+        <property name="apellidos" type="string">
+            <column name="apellidos" length="45" not-null="true" />
+        </property>
+        <property name="correoElectronico" type="string">
+            <column name="correoElectronico" length="65" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="705" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" length="15" />
+        </property>
+        <property name="direccion" type="string">
+            <column name="direccion" length="45" />
+        </property>
+        <set name="cajas" table="caja" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idempleado" />
+            </key>
+            <one-to-many class="com.pagos.Pojos.Caja" />
+        </set>
+        <set name="abonosecundarios" table="abonosecundario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idempleado" not-null="true" />
+            </key>
+            <one-to-many class="com.pagos.Pojos.Abonosecundario" />
+        </set>
+        <set name="abonoses" table="abonos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idempleado" not-null="true" />
+            </key>
+            <one-to-many class="com.pagos.Pojos.Abonos" />
+        </set>
+        <set name="gastos" table="gasto" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idempleado" not-null="true" />
+            </key>
+            <one-to-many class="com.pagos.Pojos.Gasto" />
+        </set>
+    </class>
+</hibernate-mapping>

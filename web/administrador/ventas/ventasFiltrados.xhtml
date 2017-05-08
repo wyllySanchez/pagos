@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="content">
+                <div class="container">
+
+
+                    <h:form id="frmListaVenta">
+                        <p:growl id="mensajeGeneral" showDetail="true" sticky="false" />
+                        <p:dataTable id="tablaListaProductos" var="item" value="#{factura.all}" paginator="true" rows="8" selection="#{factura.factura}" selectionMode="single" rowKey="#{item.idfacturas}" filteredValue="#{factura.listaFactFiltrado}">
+
+
+                            <f:facet name="header">
+                                <h2>Lista de Ventas</h2>
+                            </f:facet>
+                            <p:column headerText="Codigo" styleClass="#{item.formapago.idformaPago!=1 ? 'colortest':''}">
+                                <h:outputText value="#{item.idfacturas}"/>
+                            </p:column>
+                            <p:column headerText="Empleado" styleClass="#{item.formapago.idformaPago!=1 ? 'colortest':''}">
+                                <h:outputText value="#{beanEmpleado.getById(item.empleado.idempleado).getNombre()}"/>
+                            </p:column>
+                            <p:column headerText="Cliente" styleClass="#{item.formapago.idformaPago!=1 ? 'colortest':''}">
+                                <h:outputText value="#{mbCliente.getById(item.cliente.idcliente).getNombre()}"/>
+                            </p:column>
+                            <p:column headerText="Precio SubTotal" styleClass="#{item.formapago.idformaPago!=1 ? 'colortest':''}">
+                                <h:outputText value="#{item.subtotal}"/>
+
+                            </p:column>
+                            <p:column headerText="Iva" styleClass="#{item.formapago.idformaPago!=1 ? 'colortest':''}">
+                                <h:outputText value="#{item.iva}" />
+
+                            </p:column>
+
+                            <p:column headerText="Precio Total" styleClass="#{item.formapago.idformaPago!=1 ? 'colortest':''}">
+                                <h:outputText value="#{item.preciototal}"/>
+
+                            </p:column>
+                            <p:column headerText="Fecha" filterBy="fechaventa" styleClass="#{item.formapago.idformaPago!=1 ? 'colortest':''}">
+                                <h:outputText value="#{item.fechaventa}"/>
+
+                            </p:column>
+                            <p:column headerText="forma Pago" styleClass="#{item.formapago.idformaPago!=1 ? 'colortest':''}">
+                                <h:outputText value="#{mbPagos.getById(item.formapago.idformaPago).getNombre()}"/>
+                            </p:column>
+                             <p:column headerText="Fecha Palzo" filterBy="fechaPlazo" styleClass="#{item.formapago.idformaPago!=1 ? 'colortest':''}">
+                                 <h:outputText value="#{item.fechaPlazo}"/>
+
+                            </p:column>
+
+
+
+                        </p:dataTable>
+
+
+                    </h:form>
+                </div>
+            </ui:define>
+
+            <ui:define name="bottom">
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

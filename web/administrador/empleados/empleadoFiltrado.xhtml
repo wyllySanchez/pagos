@@ -1,0 +1,153 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="top">
+
+
+
+                <h:form>
+                    <div class="container">
+                        <h:form id="frmListaEmpleados">
+                            <p:growl id="mensajeGeneral" showDetail="true" sticky="false" />
+                            <p:dataTable id="tablaListaEmpleados" var="item" value="#{beanEmpleado.all}" paginator="true" rows="50" selection="#{beanEmpleado.empleado}" selectionMode="single" rowKey="#{item.idempleado}" filteredValue="#{beanEmpleado.listaEmpleadoFiltrado}">
+
+
+                                <f:facet name="header">
+                                    <h2>Lista de Empleados</h2>
+                                </f:facet>
+                                <p:column headerText="Codigo" style="width: 60px;">
+                                    <h:outputText value="#{item.idempleado}"/>
+                                </p:column>
+
+                                <p:column headerText="Rol" >
+                                    <h:outputText value="#{beanRol.getById(item.rol.idrol).getNombreRol()}"/>
+                                </p:column>
+                                <p:column headerText="Documento" filterBy="numeroDocumento">
+                                    <h:outputText value="#{item.numeroDocumento}"/>
+
+                                </p:column>
+                                <p:column headerText="Nombre" filterBy="nombre">
+                                    <h:outputText value="#{item.nombre}"/>
+
+                                </p:column>
+                                <p:column headerText="Apellidos" filterBy="apellidos">
+                                    <h:outputText value="#{item.apellidos}"/>
+                                </p:column>
+                                <p:column headerText="Correo ">
+                                    <h:outputText value="#{item.correoElectronico}"/>
+                                </p:column>
+
+
+                                <p:column headerText="Telefono" >
+                                    <h:outputText value="#{item.telefono}"/>
+                                </p:column>
+                                <p:column headerText="Direccion" >
+                                    <h:outputText value="#{item.direccion}"/>
+                                </p:column>
+
+                                <p:column headerText="editar">
+                                    <p:commandButton value="Editar" actionListener="#{beanEmpleado.cargarEmpleadoEditar(item.idempleado)}"/>
+
+                                </p:column>
+                            <!--    <p:column headerText="EditarImg">
+                                    <p:commandButton actionListener="# {beanEmpleado.cargarEmpleadoEditarAvatar(item.idempleado)}" value="Actualizar avatar"/>
+
+                                </p:column>-->
+
+
+                            </p:dataTable>
+
+
+                        </h:form>
+                    </div>
+                </h:form>
+
+
+
+
+
+
+
+
+  <h:form id="frmEditarEmpleado">
+                    <p:dialog header="Datos del Empleado" widgetVar="dialogoEditarEmpleado" modal="true">
+                        <h:panelGrid id="panelEditarEmpleado" columns="3">
+
+                            <p:outputLabel value="Rol"/>
+                            <p:selectOneMenu  value="#{beanEmpleado.codigoRol}"  required="true" >
+                                <f:selectItem itemLabel="rol" itemValue="1" />
+                                <f:selectItems value="#{beanRol.all}" var="rol" itemLabel="#{rol.nombreRol}" itemValue="#{rol.idrol}" />
+                            </p:selectOneMenu>
+                            <h:panelGroup></h:panelGroup>
+
+                            <h:panelGroup></h:panelGroup>
+                            <p:outputLabel value="Tipo Documento"/>
+                            <p:selectOneMenu  value="#{beanEmpleado.codigotipoDocumento}"  required="true" >
+                                <f:selectItem itemLabel="TIPO DE DOCUMENTO" itemValue="0" />
+                                <f:selectItem itemLabel="Cedula" itemValue="1" />
+                                <f:selectItem itemLabel="NIT" itemValue="2" />
+                                <f:selectItem itemLabel="RUNT" itemValue="3" />
+
+                            </p:selectOneMenu>
+                            <h:panelGroup></h:panelGroup>
+                            <p:outputLabel value="Nombre" for="txtNombre"/>
+                            <p:inputText id="txtNombre" label="Nombre" size="50" value="#{beanEmpleado.empleadoSelect.nombre}">
+                                <f:validator validatorId="validatorVacio"/>
+                            </p:inputText>
+                            <p:message for="txtNombre"/>
+                            <p:outputLabel value="Apellidos " for="txtApellidos"/>
+                            <p:inputText id="txtApellidos" label="Apellidos" size="50" value="#{beanEmpleado.empleadoSelect.apellidos}">
+                                <f:validator validatorId="validatorVacio"/>
+                            </p:inputText>
+                            <p:message for="txtApellidos"/>
+
+                            <p:outputLabel value="Correo electrónico" for="txtCorreoElectronico"/>
+                            <p:inputText id="txtCorreoElectronico" label="Correo electrónico" size="50" title="Ejemplo: william@gmail.com" value="#{beanEmpleado.empleadoSelect.correoElectronico}">
+                                <f:validator validatorId="validatorVacio"/>
+                                <f:validator validatorId="validatorEmail"/>
+                            </p:inputText>
+
+                            <h:panelGroup>
+                                <p:tooltip for="txtCorreoElectronico" showEvent="focus" hideEvent="blur"/>
+                                <p:message for="txtCorreoElectronico"/>
+                            </h:panelGroup>
+
+
+
+                            <h:panelGroup></h:panelGroup>
+                            <p:commandButton value="Guardar cambios" ajax="false" actionListener="#{beanEmpleado.actualizar()}"/>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+
+              <!--  <p:dialog id="avatarEmple" header="Actualizar avatar" widgetVar="dialogoActualizarAvatar" modal="true">
+                    <h:form id="frmActualizarAvatar" enctype="multipart/form-data">
+
+                        <p:fileUpload id="txtAvatar" mode="simple" value="# {beanEmpleado.avatar}"/>
+                        <p:commandButton value="Actualizar avatar" ajax="false" actionListener="# {beanEmpleado.actualizarAvatar()}"/>
+                    </h:form>
+                </p:dialog>-->
+
+            </ui:define>
+
+
+
+
+
+            <ui:define name="content">
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

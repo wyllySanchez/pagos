@@ -1,0 +1,117 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="top">
+                <div class="container">
+                    <h:form id="frmListaClientes">
+                        <p:growl id="mensajeGeneral" showDetail="true" sticky="false" />
+                        <p:dataTable id="tablaListaProductos" var="item" value="#{mbCliente.all}" paginator="true" rows="8" selection="#{mbCliente.cliente}" selectionMode="single" rowKey="#{item.idcliente}" filteredValue="#{mbCliente.listaClienteFiltrado}">
+
+
+                            <f:facet name="header">
+                                <h2>Lista de Clientes</h2>
+                            </f:facet>
+                            <!--<p:column headerText="Codigo" >
+                                <h:outputText value="# {item.idcliente}"/>
+                            </p:column>-->
+
+                            <p:column headerText="N° Documento" filterBy="numeroDocumentoC">
+                                <h:outputText value="#{item.numeroDocumentoC}"/>
+
+                            </p:column>
+                            <p:column headerText="Nombre" filterBy="nombre">
+                                <h:outputText value="#{item.nombre}"/>
+
+                            </p:column>
+                            <p:column headerText="Apellidos" filterBy="apellidos">
+                                <h:outputText value="#{item.apellidos}"/>
+                            </p:column>
+
+
+                            <p:column headerText="Telefono" >
+                                <h:outputText value="#{item.telefono}"/>
+                            </p:column>
+
+                            <p:column headerText="Direccion" >
+                                <h:outputText value="#{item.direccion}"/>
+                            </p:column>
+                             <p:column headerText="Direccion" >
+                                 <h:outputText value="#{item.ocupacion}"/>
+                            </p:column>
+                            <p:column headerText="editar">
+                                <p:commandButton value="Editar datos" actionListener="#{mbCliente.cargarClienteEditar(item.idcliente)}"/>
+
+                            </p:column>
+                              <p:column headerText="Eliminar">
+                                  <p:commandButton value="Eliminar" ajax="false" actionListener="#{mbCliente.Eliminar(item.idcliente)}"/>
+
+                            </p:column>
+
+                        </p:dataTable>
+
+
+                    </h:form>
+                </div>
+
+
+                <h:form id="frmEditarCliente">
+                    <p:dialog header="Datos del Cliente" widgetVar="dialogoEditarCliente" modal="true">
+                        <h:panelGrid id="panelEditarCliente" columns="3" style="color: #000;">
+
+                            <h:panelGroup></h:panelGroup>
+                            <p:outputLabel value="Numero Documento"  for="txtNumeroDocumento"/>
+                            <p:inputText id="txtNumeroDocumento" label="Numero Documento" size="50" value="#{mbCliente.cliente.numeroDocumentoC}">
+                            </p:inputText>
+                            <p:message for="txtNumeroDocumento"/>
+
+                            <p:outputLabel value="Nombre" for="txtNombre"/>
+                            <p:inputText id="txtNombre" label="Nombre" size="50" value="#{mbCliente.cliente.nombre}">
+                            </p:inputText>
+                            <p:message for="txtNombre"/>
+
+                            <p:outputLabel value="Apellidos" for="txtApellidos"/>
+                            <p:inputText id="txtApellidos" label="Apellidos" size="50" value="#{mbCliente.cliente.apellidos}">
+                            </p:inputText>
+                            <p:message for="txtApellidos"/>
+
+
+
+                            <p:outputLabel value="Telefono" for="txtTelefono"/>
+                            <p:inputText id="txtTelefono" label="Teléfono" size="50" value="#{mbCliente.cliente.telefono}"/>
+                            <h:panelGroup></h:panelGroup>
+                            <p:outputLabel value="Direccion"/>
+                            <p:inputText  label="Direccion"  value="#{mbCliente.cliente.direccion}">
+                            </p:inputText>
+                            <h:panelGroup></h:panelGroup>
+                            <p:inputText  label="Ocupacion"  value="#{mbCliente.cliente.ocupacion}">
+                            </p:inputText>
+                            <h:panelGroup></h:panelGroup>
+                            <p:commandButton value="Guardar cambios" ajax="false" actionListener="#{mbCliente.actualizar()}"/>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+
+
+
+            <ui:define name="content">
+
+            </ui:define>
+
+            <ui:define name="bottom">
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

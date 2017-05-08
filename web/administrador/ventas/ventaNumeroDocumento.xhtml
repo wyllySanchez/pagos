@@ -1,0 +1,231 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="top">
+                <div class="container">
+                    <div class="row">
+                        <hr></hr>
+                        <div class="col-lg-3 col-md-3 col-xs-13 col-sm-3">
+
+                            <div class="panel panel-default div2">
+                                <div class="panel-heading color"><h2>Buscar  Clientes</h2></div>
+                                <div class="panel-body">
+                                    <h:form>
+                                        <p:growl showDetail="true" sticky="false"></p:growl>
+
+                                        <label>Digite el Numero de documento </label>
+                                        <h:inputText styleClass="form-control" value="#{factura.numeroDocumento}"/>
+                                        <br></br>
+                                        <h:commandButton styleClass="btn btn-block btn-info" value="Buscar" actionListener="#{factura.searchByDocumento()}"></h:commandButton>
+                                        <br></br>
+
+
+                                    </h:form>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-lg-9 col-md-9 col-xs-9 col-sm-9">
+                            <div class="panel panel-default div2">
+
+                                <div class="panel-body">
+
+                                    <h:form rendered="#{factura.listaFact!=null}" styleClass="form-group" >
+
+                                        <p:growl id="growl" showDetail="true" sticky="true" />
+                                        <p:dataTable style="width: 98% !important;margin-left: 5px;" value="#{factura.listaFact}" var="item" paginator="true" rows="5">
+                                            <f:facet name="header">
+                                                <h2>Lista de Ventas</h2>
+                                            </f:facet>
+                                            <p:columnGroup  type="header">
+                                                <p:row>
+                                                    <p:column colspan="2" headerText="cliente: #{factura.cliente.nombre} #{factura.cliente.apellidos}" />
+                                                    <p:column colspan="2" headerText="Documento: #{factura.cliente.numeroDocumentoC}" />
+                                                    <p:column colspan="1" headerText="Telefono: #{factura.cliente.telefono}"/>
+                                                    <p:column colspan="2" headerText="Direccion: #{factura.cliente.direccion}"/>
+                                                </p:row>
+
+
+
+                                                <p:row>
+                                                    <p:column headerText="Factura #" />
+                                                    <p:column headerText="Empleado" />
+
+                                                    <p:column headerText="SubTotal" />
+                                                    <p:column headerText="Iva" />
+                                                    <p:column headerText="Total" />
+                                                    <p:column  headerText="Fecha" />
+                                                    <p:column  headerText="x" />
+
+
+                                                </p:row>
+                                            </p:columnGroup>
+                                            <p:column headerText="codigo">
+                                                #{item.idfacturas}
+                                            </p:column>
+                                            <p:column headerText="Empleado">
+                                                #{beanEmpleado.getById(item.empleado.idempleado).getNombre()}
+                                            </p:column>
+
+
+                                            <p:column headerText="SubTotal">
+                                                #{item.subtotal}
+                                            </p:column>
+                                            <p:column headerText="Iva">
+                                                #{item.iva}
+                                            </p:column>
+                                            <p:column headerText="Saldo Final">
+                                                #{item.preciototal}
+                                            </p:column>
+                                            <p:column colspan="2" headerText="Fecha">
+                                                #{item.fechaventa}
+                                            </p:column>
+                                            <p:column headerText="Abono secundario">
+                                                <h:form>
+                                                    <h:commandButton  pa:data-toggle="modal" pa:data-target="#myModal1" value="Ver mas" class="btn btn-primary">
+                                                        <f:ajax listener="#{beanVentanaDetalle.BuscarBYcodigoFactura(item)}" render="growl frmEliminarSitio" event="click" />
+                                                    </h:commandButton>
+                                                </h:form>
+
+                                            </p:column>
+                                        </p:dataTable>
+
+                                    </h:form>
+                                </div>
+
+
+                                <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                                    <h:form id="frmEliminarSitio" styleClass="modal-dialog"  role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                                <h4 class="modal-title" id="myModalLabel">Lista Detalle Venta</h4>
+                                            </div>
+                                            <div id="imprimeDiv" class="modal-body">
+                                                <p:dataTable style="width: 98% !important;margin-left: 5px;" value="#{beanVentanaDetalle.listaVentanadetalleSele}" var="item" >
+
+                                                    <f:facet   name="header">
+
+                                                        <h2>   
+                                                            <a>
+                                                                <img class="logotipo" alt="Brand" src="/JUBAL/resources/imagenes/imgJubal.jpg" width="150" height="55" style="background: #fff;"></img>
+                                                            </a>
+                                                            VIDRIOS JUBAL S.A.S 
+
+                                                            <h6>Vidrios de 2 a 19 mm -
+                                                                Divisiones para baño en vidrio templado o aluminio -
+                                                                Acrilico persianas verticales y horizontales<br></br> Cortineros 
+                                                                Mosquiteros en aluminio- Espejos tallados y todo lo relacionado con Ventaneria y puertas en aluminio arquitetonico <br></br>
+                                                                Fachada en vidrio templado</h6>
+                                                        </h2>   
+
+                                                        RODRIGO  NIT: 6'645.506-5. <br></br>  
+                                                        Direccion: calle 31 # 22-39 Barrio Centro  Palmira(valle). <br></br>     
+                                                        Telefono: 2724344  2727212   FAX: 2735154.   email:vidriosjubal@hotmail.com<br></br> 
+
+                                                    </f:facet>
+                                                    <p:columnGroup  type="header">
+                                                        <p:row>
+                                                            <p:column colspan="2" headerText="Numero Fact: #{beanVentanaDetalle.factura.idfacturas}" />
+                                                            <p:column colspan="3" headerText="Fecha: #{beanVentanaDetalle.factura.fechaventa}" />
+
+                                                        </p:row>
+                                                        <p:row>
+                                                            <p:column colspan="2" headerText="cliente: #{factura.cliente.nombre} #{factura.cliente.apellidos}" />
+                                                            <p:column colspan="1" headerText="Documento: #{factura.cliente.numeroDocumentoC}" />
+                                                            <p:column colspan="1" headerText="Telefono: #{factura.cliente.telefono}"/>
+                                                        </p:row>
+                                                        <p:row>
+                                                            <p:column colspan="1" headerText="Email : #{factura.cliente.correoElectronico}"/>
+                                                            <p:column colspan="1" headerText="Direccion: #{factura.cliente.direccion}"/>
+                                                        </p:row>
+                                                        <p:row>
+                                                            <p:column headerText="Producto" />
+                                                            <p:column headerText="Nombre" />
+
+                                                            <p:column headerText="Cantizad" />
+                                                            <p:column headerText="Precio Venta" />
+
+                                                            <p:column headerText="Total" />
+
+
+                                                        </p:row>
+                                                    </p:columnGroup>
+                                                    <p:column headerText="Producto" >
+                                                        <h:outputText value="#{item.productos.nombre}"/>
+                                                    </p:column>
+
+                                                    <p:column headerText="Nombre">
+                                                        <h:outputText value="#{item.nombrepro}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Cantidad">
+                                                        <h:outputText value="#{item.cantidad}"/>
+                                                    </p:column>
+                                                    <p:column headerText="Precio Venta">
+                                                        <h:outputText value="#{item.precioventa}"/>
+                                                    </p:column>
+
+                                                    <p:column headerText="total" >
+                                                        <h:outputText value="#{item.total}"/>
+                                                    </p:column>
+                                                    <p:columnGroup type="footer">
+                                                        <p:row>
+                                                            <p:column footerText=" " />
+                                                            <p:column footerText=""/>
+                                                            <p:column footerText="SubTotal:#{beanVentanaDetalle.factura.subtotal}"/>
+                                                            <p:column footerText="Iva :#{beanVentanaDetalle.factura.iva}"/>
+                                                            <p:column footerText="Toatl$:#{beanVentanaDetalle.factura.preciototal}"/>
+
+                                                        </p:row>
+                                                        <p:row>
+                                                            <p:column colspan="3" footerText="Resolucion DIAN:1111 de 2015-02-10 " />
+                                                            <p:column colspan="2" footerText=" Numeracion de :20000 al 50000"/>
+
+
+                                                        </p:row>
+                                                    </p:columnGroup>
+
+
+                                                </p:dataTable>
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                                                <button onclick="imprimir()" type="button" class="btn btn-info" >Imprimir</button>
+
+                                            </div>
+                                        </div>
+
+                                    </h:form>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </ui:define>
+
+            <ui:define name="bottom">
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

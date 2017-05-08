@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:pa="http://xmlns.jcp.org/jsf/passthrough">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="top">
+                <div class="container">
+                    <div id="registro-Clientes">                     
+                        <div style="margin: 0px auto"> 
+
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-6">
+
+                                    <div class="panel panel-default div2">
+                                        <div class="panel-heading " style="background-color: #67b168;">REGISTRO EMPLEADOS</div>
+                                        <div class="panel-body">
+                                            <img src="/PAGOS/resources/imagenes/empleado.jpg" width="500" height="400" ></img>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                                <div class="col-lg-6 col-md-6 col-xs-12 col-sm-6">
+                                    <div class="panel panel-default div2">
+                                        <div class="panel-heading" style="background-color: #67b168;">REGISTRO EMPLEADOS</div>
+                                        <div class="panel-body">
+                                            <h:form  styleClass="form-group">
+
+                                                <p:growl id="growl" showDetail="true" life="3000" />
+
+                                                <h:selectOneMenu styleClass="input-sm col-xs-12" value="#{beanEmpleado.codigoRol}"  required="true" style="margin-top: 10px; "  >
+                                                    <f:selectItem itemLabel="Rol" itemValue="1" />
+                                                    <f:selectItems value="#{beanRol.all}" var="rol" itemLabel="#{rol.nombreRol}" itemValue="#{rol.idrol}" />
+                                                </h:selectOneMenu>
+
+
+                                                <h:selectOneMenu styleClass="input-sm col-xs-12"  value="#{beanEmpleado.codigotipoDocumento}"  required="true" class="col-lg-6 form-control" style="margin-top: 10px; " >
+                                                    <f:selectItem itemLabel="TIPO DE DOCUMENTO" itemValue="0" />
+                                                    <f:selectItem itemLabel="Cedula" itemValue="1" />
+                                                    <f:selectItem itemLabel="NIT" itemValue="2" />
+                                                    <f:selectItem itemLabel="RUNT" itemValue="3" />
+
+                                                </h:selectOneMenu>
+                                                <p:inputText autocomplete="off" id="NumeroDocumento" pa:placeholder="Numero Documento" value="#{beanEmpleado.empleadoSelect.numeroDocumento}" class="col-lg-12 form-control" style="margin-top: 10px">
+                                                </p:inputText>
+
+
+                                                <p:inputText autocomplete="off" id="Nombre" pa:placeholder="Nombre" value="#{beanEmpleado.empleadoSelect.nombre}" class="col-lg-12 form-control" style="margin-top: 10px">
+                                                    <f:validator validatorId="validatorVacio"/>
+                                                </p:inputText>
+                                                <p:inputText autocomplete="off" id="Apellido" pa:placeholder="apellidos" value="#{beanEmpleado.empleadoSelect.apellidos}" class="col-lg-12 form-control" style="margin-top: 10px">
+                                                    <f:validator validatorId="validatorVacio"/>
+                                                </p:inputText>
+                                                <br></br>
+
+                                                <p:inputText autocomplete="off" id="Telefono" pa:placeholder="Telefono" value="#{beanEmpleado.empleadoSelect.telefono}" class="col-lg-6 form-control" style="margin-top: 10px">
+                                                    <f:validator validatorId="validatorVacio"/>
+                                                </p:inputText>
+
+                                                <p:inputText type="email" id="CorreoElectronico" value="#{beanEmpleado.empleadoSelect.correoElectronico}" pa:placeholder="Correo Electronico" class="col-lg-12 form-control" style="margin-top: 10px">
+                                                    <f:validator validatorId="validatorVacio"/>
+                                                    <f:validator validatorId="validatorEmail"/>
+                                                </p:inputText>
+                                                <p:inputText type="password" id="contraseña" pa:placeholder="Contraseña 4 Caracteres como minimo" value="#{beanEmpleado.empleadoSelect.password}" class="col-lg-12 form-control" style="margin-top: 10px">
+                                                    <f:validator validatorId="validatorVacio"/>
+                                                </p:inputText>
+                                                <p:inputText type="password" value="#{beanEmpleado.contraseniaRepita}" pa:placeholder="Vuelve a escribir la contraseña" class="col-lg-12 form-control" style="margin-top: 10px">
+                                                    <f:validator validatorId="validatorVacio"/>
+                                                </p:inputText>
+                                                <p:inputText autocomplete="off" id="Direccion" pa:placeholder="Direccion" value="#{beanEmpleado.empleadoSelect.direccion}" class="col-lg-12 form-control" style="margin-top: 10px">
+                                                    <f:validator validatorId="validatorVacio"/>
+                                                </p:inputText>
+                                                <br></br>
+                                                <p:commandButton update="@all" value="REGISTRAR" class="btn btn-block" actionListener="#{beanEmpleado.register()}" style="margin-top: 10px;"/>
+
+                                            </h:form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ui:define>
+
+
+
+            <ui:define name="content">
+
+
+            </ui:define>
+            <ui:define name="bottom">
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

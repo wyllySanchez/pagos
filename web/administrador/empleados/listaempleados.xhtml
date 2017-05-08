@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="top">
+
+                    <div class="container">
+                        <h:form id="frmListaEmpleados">
+                            <p:growl id="mensajeGeneral" showDetail="true" sticky="false" />
+                            <p:dataTable id="tablaListaEmpleados" var="item" value="#{beanEmpleado.all}" paginator="true" rows="50" selection="#{beanEmpleado.empleado}" selectionMode="single" rowKey="#{item.idempleado}" filteredValue="#{beanEmpleado.listaEmpleadoFiltrado}">
+
+
+                                <f:facet name="header">
+                                    <h2>Lista de Empleados</h2>
+                                </f:facet>
+                                <p:column headerText="Codigo" style="width: 60px;">
+                                    <h:outputText value="#{item.idempleado}"/>
+                                </p:column>
+
+                                <p:column headerText="Rol" >
+                                    <h:outputText value="#{beanRol.getById(item.rol.idrol).getNombreRol()}"/>
+                                </p:column>
+                                <p:column headerText="Documento" filterBy="numeroDocumento">
+                                    <h:outputText value="#{item.numeroDocumento}"/>
+
+                                </p:column>
+                                <p:column headerText="Nombre" filterBy="nombre">
+                                    <h:outputText value="#{item.nombre}"/>
+
+                                </p:column>
+                                <p:column headerText="Apellidos" filterBy="apellidos">
+                                    <h:outputText value="#{item.apellidos}"/>
+                                </p:column>
+                                <p:column headerText="Correo ">
+                                    <h:outputText value="#{item.correoElectronico}"/>
+                                </p:column>
+
+                                <p:column headerText="Telefono" >
+                                    <h:outputText value="#{item.telefono}"/>
+                                </p:column>
+                                <p:column headerText="Direccion" >
+                                    <h:outputText value="#{item.direccion}"/>
+                                </p:column>
+
+
+
+
+                            </p:dataTable>
+
+
+                        </h:form>
+                    </div>
+            </ui:define>
+
+
+
+
+
+            <ui:define name="content">
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="top">
+                <div class="container">
+                    <h:form id="frmListaClientes">
+                        <p:growl id="mensajeGeneral" showDetail="true" sticky="false" />
+                        <p:dataTable id="tablaListaCaja" var="item" value="#{mbCaja.all}" paginator="true" rows="8" selection="#{mbCaja.caja}" selectionMode="single" rowKey="#{item.idcaja}" filteredValue="#{mbCaja.listaCajaFiltrado}">
+
+                            <f:facet name="header">
+                                <h2>Lista de Dinero Registrado</h2>
+                            </f:facet>
+                            <!--<p:column headerText="Codigo" >
+                                <h:outputText value="# {item.idcliente}"/>
+                            </p:column>-->
+
+                            <p:column headerText="Codigo" style="width: 100px;">
+                                <h:outputText value="#{item.idcaja}"/>
+                            </p:column>
+
+                            <p:column headerText="Empleado">
+                                <h:outputText value="#{beanEmpleado.getById(item.empleado.idempleado).getNombre()} #{beanEmpleado.getById(item.empleado.idempleado).getApellidos()}"/>
+
+                            </p:column>
+                            <p:column headerText="Monto" filterBy="nombre">
+                                <h:outputText value="#{item.valor}"/>
+
+                            </p:column>
+                            <p:column headerText="Fecha Registro" filterBy="fecha">
+                                <h:outputText value="#{item.fecha}"/>
+                            </p:column>
+                            <p:column headerText="editar">
+                                <p:commandButton value="Editar datos" actionListener="#{mbCaja.cargarCajaEditar(item.idcaja)}"/>
+
+                            </p:column>
+                            <p:column headerText="Eliminar">
+                                <p:commandButton value="Eliminar" ajax="false" actionListener="#{mbCaja.Eliminar(item.idcaja)}"/>
+
+                            </p:column>
+
+                        </p:dataTable>
+
+
+                    </h:form>
+                </div>
+
+
+                <h:form id="frmEditarCaja">
+                    <p:dialog header="Datos de Monto Dinero" widgetVar="dialogoEditarCaja" modal="true">
+                        <h:panelGrid id="panelEditarCaja" columns="3" style="color: #000;">
+
+                            <h:panelGroup></h:panelGroup>
+                            <h:outputLabel value="Cambio de el Valor $:" style="color: white"/>
+                            <p:inputText id="txtNumeroDocumento" label="Numero Documento" size="30" value="#{mbCaja.caja1.valor}">
+                            </p:inputText>
+                            <h:panelGroup></h:panelGroup>
+                               <h:panelGroup></h:panelGroup>
+                            <p:commandButton value="Guardar cambios" ajax="false" actionListener="#{mbCaja.actualizar()}"/>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="bottom">
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

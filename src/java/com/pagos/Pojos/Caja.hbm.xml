@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 1/05/2017 01:09:14 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.pagos.Pojos.Caja" table="caja" catalog="pagos" optimistic-lock="version">
+        <id name="idcaja" type="java.lang.Integer">
+            <column name="idcaja" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="empleado" class="com.pagos.Pojos.Empleado" fetch="select">
+            <column name="idempleado" />
+        </many-to-one>
+        <property name="valor" type="long">
+            <column name="valor" not-null="true" />
+        </property>
+        <property name="fecha" type="timestamp">
+            <column name="fecha" length="19" />
+        </property>
+    </class>
+</hibernate-mapping>

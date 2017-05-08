@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="top">
+                <div class="container">
+                             
+                     
+            
+                <h:form id="frmListaAbonoSecundario">
+                    <p:growl id="mensajeGeneral" showDetail="true" sticky="false" />
+                    <p:dataTable id="tablaListaAbonosSecundario" var="item" value="#{mbAbonoSecundario.all}" paginator="true" rows="12" selection="#{mbAbonoSecundario.abonosecundario}" selectionMode="single" rowKey="#{item.idabonosecun}" filteredValue="#{mbAbonoSecundario.listaAbonoFiltradoSecundario}">
+
+
+                        <f:facet name="header">
+                         <h3>Lista Cuotas Abonodas Cliente</h3>
+                        </f:facet>
+
+                        <p:column headerText="codigo cliente" style="width: 150px;" filterBy="#{item.abonos.idabonos}">
+                              <h:outputText value="#{item.abonos.idabonos}"/>
+                        </p:column>
+                          <p:column headerText="Empleado" >
+                              <h:outputText value="#{beanEmpleado.getById(item.empleado.idempleado).getNombre()} #{beanEmpleado.getById(item.empleado.idempleado).getApellidos()}"/>
+                        </p:column>
+                      
+                         <p:column headerText="valor Abono" >
+                             <h:outputText value="#{item.valorAbono}"/>
+
+                        </p:column>
+                        <p:column headerText="N° Cuota" style="width: 100px;">
+                                <h:outputText value="#{item.cuota}"/>
+
+                        </p:column>
+                          <p:column headerText="Saldo Final" >
+                              <h:outputText value="#{item.saldoTotaL}"/>
+
+                        </p:column>
+                        <p:column headerText="Fecha" filterBy="fechaRegistro" >
+                              <h:outputText value="#{item.fechaRegistro}"/>
+
+                        </p:column>
+                      
+
+
+
+                    </p:dataTable>
+
+
+                </h:form> 
+                </div>
+            </ui:define>
+
+            <ui:define name="bottom">
+           
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

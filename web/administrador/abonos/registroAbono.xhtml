@@ -1,0 +1,214 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:pa="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="top">
+                <h:form>
+                    <h:panelGrid  width="1000px" style="margin: 0 auto; background-color: #045491">
+                        <p:commandButton value="REALIZAR NUEVO PRESPAMO" 
+                                         update=":frmAbonos" action="#{mbAbonos.enebleButton()}"
+                                         style="width: 100%; height: 50px;"/> 
+                    </h:panelGrid>
+                </h:form>
+                <h:form id="frmAbonos">
+                    <p:growl id="mensajeGeneral" showDetail="true" autoUpdate="true" life="3000"/>
+                    <p:panel header=""  style="width: 1000px;text-align: center; margin: 0 auto;" >
+                        <p:layout id="capaDatosClientesFactura" style="width: 100%; height: 170px;">
+                            <p:layoutUnit id="DatosCliente" position="center" style="padding: 5px; 
+                                          font-size: 14px; text-align: justify" size="250">
+
+                                <h:panelGrid id="gripBuscarDatosClintes" columns="3">                                     
+                                    <p:outputLabel id="txtBuscarCliente" value="codigo cliente:  " style="font-weight: bold;"/>
+
+
+                                    <p:commandButton value="Buscar cliente ..." oncomplete="PF('dilogoCliente').show();"
+                                                     update=":frmCliente" style="margin-left: 20px;"
+                                                     disabled="#{!mbAbonos.enabled}"/>
+
+
+
+                                </h:panelGrid>
+
+
+                                <p:separator/>
+
+
+                                <h:panelGrid id="gripDatosClintes" columns="4">
+                                    <p:outputLabel value="Nombre :" style="font-weight: bold;"/>
+                                    <p:outputLabel id="lblNombreCliente"  value="#{mbAbonos.cliente.nombre} #{mbAbonos.cliente.apellidos}" style="font-weight: bold; margin-left: 20px;"/>
+                                    <p:outputLabel value="N° Documento :" style="font-weight: bold; margin-left: 30px;"/>
+                                    <p:outputLabel id="lblNumeroCliente"  value="#{mbAbonos.cliente.numeroDocumentoC}"/>
+
+                                    <p:outputLabel value="Direccion" style="font-weight: bold;"/>
+                                    <p:outputLabel  id="lblDireccionCliente" value="#{mbAbonos.cliente.direccion}" style="font-weight: bold; margin-left: 30px;"/>
+                                    <p:outputLabel value="N° Telefono" style="font-weight: bold; margin-left: 30px;"/>
+                                    <p:outputLabel id="lblTelefonoCliente"  value="#{mbAbonos.cliente.telefono}"/>
+
+                                </h:panelGrid>
+
+
+
+                            </p:layoutUnit>
+                            <p:layoutUnit id="datosFactura" position="east" style="padding: 5px; text-align: center;
+                                          font-size: 14px;" size="450">
+                                <h:panelGrid  id="gripBuscarProducto" columns="2" style="font-size: 14px; font-weight: bold; margin-top: 30px; margin: 0 auto">
+
+
+                                    <p:outputLabel id="txtBuscarEmpleado" value="codigo Empleado:  " style="font-weight: bold; margin-left: 40px;"/>
+
+
+                                    <p:commandButton value="Buscar Empleado ..." oncomplete="PF('dilogoEmpleado').show();"
+                                                     update=":frmEmpleado" style="margin-left: 10px;"
+                                                     disabled="#{!mbAbonos.enabled}"/>
+
+                                </h:panelGrid>
+                                <p:separator/>
+                                <h:panelGrid id="gripDatosEmpleado" columns="2">
+                                    <p:outputLabel value="Nombre" style="font-weight: bold;"/>
+                                    <p:outputLabel id="lblNombreEmpleado"  value="#{mbAbonos.empleado.nombre} #{mbAbonos.empleado.apellidos}"/>
+                                    <p:outputLabel value="N° Documento" style="font-weight: bold; margin-left: 30px;"/>
+                                    <p:outputLabel id="lblNumeroEmpleado"  value="#{mbAbonos.empleado.numeroDocumento}"/>
+
+                                </h:panelGrid>
+                            </p:layoutUnit>
+
+
+                        </p:layout>
+                            <p:separator/>
+                        <p:layout id="capaDatosPagos" style="width: 100%; height: 160px;">
+                            <p:layoutUnit id="DatosPagos" position="center" style="padding: 5px; 
+                                          font-size: 14px; text-align: justify" size="150">
+                                <h:panelGrid id="gripBuscarDatosPagos" columns="4">     
+                                    <p:outputLabel value="Valor Prestamo" style="font-weight: bold;"/>
+                                    <p:inputText autocomplete="off" id="Nombre" placeholder="Valor Prestamo" value="#{mbAbonos.abonos.precioTotal}" class="col-lg-12 form-control"  style="margin-top: 10px;"   disabled="#{!mbAbonos.enabled}">
+                                    </p:inputText>
+
+                                    <p:outputLabel value="Numero Cuotas" style="font-weight: bold; margin-left: 30px;"/>
+                                    <p:inputText autocomplete="off" id="Apellido" placeholder="Numero Cuotas" value="#{mbAbonos.abonos.totalCuotas}" class="col-lg-12 form-control" style="margin-top: 10px"  disabled="#{!mbAbonos.enabled}" >
+                                    </p:inputText>
+
+                                    <p:outputLabel value="Valor Cuotas" style="font-weight: bold; "/>
+                                    <p:inputText autocomplete="off" id="numeroDocumento" placeholder="Valor Cuota" value="#{mbAbonos.abonos.valorCuota}" class="col-lg-12 form-control" style="margin-top: 10px"   disabled="#{!mbAbonos.enabled}">
+                                    </p:inputText>
+
+                                    <p:outputLabel value="Saldo Total" style="font-weight: bold; margin-left: 30px;"/>
+                                    <p:inputText autocomplete="off" id="saldoTotal" placeholder="Saldo Total" value="#{mbAbonos.abonos.saldofinal}" class="col-lg-12 form-control" style="margin-top: 10px"   disabled="#{!mbAbonos.enabled}">
+                                    </p:inputText>
+
+                                    <p:outputLabel value="Ruta" style="font-weight: bold; margin-left: 30px;"/>
+                                    <h:selectOneMenu  value="#{mbAbonos.codigoRuta}"  required="true" style="margin-top: 10px; width: 200px; color: #000000;"   disabled="#{!mbAbonos.enabled}">
+                                        <f:selectItem itemLabel="Ruta de Cobro" itemValue="1" />
+                                        <f:selectItems value="#{mbRuta.all}" var="ruta" itemLabel="#{ruta.nonbre}" itemValue="#{ruta.idruta}" />
+                                    </h:selectOneMenu>
+
+                                    <p:outputLabel value="Fecha Plazo" style="font-weight: bold; margin-top: 20px; margin-left: 30px;"/>
+                                    <p:calendar id="FechaPlazo" label="yyyy/mm/dd" pattern="yyyy/MM/dd" showOn="button" value="#{mbAbonos.abonos.fechaPlazo}"  style="margin-top: 20px; width: 300px;" disabled="#{!mbAbonos.enabled}"/>
+
+                                </h:panelGrid>           
+                            </p:layoutUnit>
+                        </p:layout>
+                        <p:separator/>
+
+                        <p:commandButton value="Registrar" actionListener="#{mbAbonos.registroPrestamo()}"      disabled="#{!mbAbonos.enabled}"                                      
+                                         ajax="false"  style=" width: 150px; height: 45px;" />
+
+
+                        <p:commandButton value="Cancelar" action="#{mbAbonos.limpiarAbonos()}"      disabled="#{!mbAbonos.enabled}"
+                                         style=" width: 130px; height: 45px;"
+                                         update=":frmAbonos">
+                        </p:commandButton>
+
+                    </p:panel>
+
+
+
+                </h:form>
+
+                <!--dialogo para mstrar los clientes-->
+                <p:dialog id="dlgCliente" widgetVar="dilogoCliente"   modal="true" showEffect="explode" resizable="false" hideEffect="explode">
+                    <h:form id="frmCliente"  style="color: #000000">
+                        <p:dataTable id="tablaClientes" style="width: 650px; font-size: 12px;" paginator="true" rows="10" scrollHeight="150" 
+                                     var="cl" value="#{mbAbonos.allClientes}" emptyMessage="No hay datos de clientes">
+
+                            <p:column headerText="codigo" style="width: 70px;">
+                                <h:outputText value="#{cl.idcliente}"/>
+                            </p:column>
+                            <p:column headerText="Documento" filterBy="numeroDocumentoC">
+                                <h:outputText value="#{cl.numeroDocumentoC}"/>
+                            </p:column>
+                            <p:column headerText="Nombre" filterBy="nombre">
+                                <h:outputText value="#{cl.nombre}"/>
+                            </p:column>
+                            <p:column headerText="Apellido" filterBy="apellidos">
+                                <h:outputText value="#{cl.apellidos}"/>
+                            </p:column>
+                            <p:column headerText="Direccion" filterBy="direccion">
+                                <h:outputText value="#{cl.direccion}"/>
+                            </p:column>
+                            <p:column headerText="seleccionar">
+                                <p:commandButton value="seleccionar" actionListener="#{mbAbonos.agregarDatosCliente(cl.idcliente)}"
+                                                 oncomplete="PF('dilogoCliente').hide();"
+                                                 update=":frmAbonos:gripDatosClintes">
+                                </p:commandButton>
+
+                            </p:column>
+
+                        </p:dataTable>
+                        <p:commandButton value="Cerrar" onclick="PF('dilogoCliente').hide();"/>
+                    </h:form>
+                </p:dialog>
+                <!--dialogo para mstrar los Empleados-->
+                <p:dialog id="dlgEmpleado" widgetVar="dilogoEmpleado"   modal="true" showEffect="explode" resizable="false" hideEffect="explode">
+                    <h:form id="frmEmpleado"  style="color: #000000">
+                        <p:dataTable id="tablaEmpleado" style="width: 650px; font-size: 12px;" paginator="true" rows="10" scrollHeight="150" 
+                                     var="emp" value="#{mbAbonos.allEmpleado}" emptyMessage="No hay datos de Empleado">
+
+                            <p:column headerText="codigo" style="width: 70px;">
+                                <h:outputText value="#{emp.idempleado}"/>
+                            </p:column>
+                            <p:column headerText="Documento" filterBy="numeroDocumentoC">
+                                <h:outputText value="#{emp.numeroDocumento}"/>
+                            </p:column>
+                            <p:column headerText="Nombre" filterBy="nombre">
+                                <h:outputText value="#{emp.nombre}"/>
+                            </p:column>
+                            <p:column headerText="Apellido" filterBy="apellidos">
+                                <h:outputText value="#{emp.apellidos}"/>
+                            </p:column>
+                            <p:column headerText="Direccion" filterBy="direccion">
+                                <h:outputText value="#{emp.direccion}"/>
+                            </p:column>
+                            <p:column headerText="seleccionar">
+                                <p:commandButton value="seleccionar" actionListener="#{mbAbonos.agregarDatosEmpleado(emp.idempleado)}"
+                                                 oncomplete="PF('dilogoEmpleado').hide();"
+                                                 update=":frmAbonos:gripDatosEmpleado">
+                                </p:commandButton>
+
+                            </p:column>
+
+                        </p:dataTable>
+                        <p:commandButton value="Cerrar" onclick="PF('dilogoEmpleado').hide();"/>
+                    </h:form>
+                </p:dialog>
+
+
+
+            </ui:define>
+
+            <ui:define name="bottom">
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

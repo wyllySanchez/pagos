@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 1/05/2017 01:09:14 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.pagos.Pojos.Ruta" table="ruta" catalog="pagos" optimistic-lock="version">
+        <id name="idruta" type="java.lang.Integer">
+            <column name="idruta" />
+            <generator class="identity" />
+        </id>
+        <property name="nonbre" type="string">
+            <column name="nonbre" length="45" />
+        </property>
+        <set name="abonoses" table="abonos" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idruta" />
+            </key>
+            <one-to-many class="com.pagos.Pojos.Abonos" />
+        </set>
+    </class>
+</hibernate-mapping>

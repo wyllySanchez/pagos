@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="content">
+                <div class="container-fluid">
+
+                    <h:form  id="frmImprime" styleClass="form-group" >
+                              <p:commandButton value="Imprimir" style=" width: 130px; height: 45px;" onclick="imprimir()" />   
+
+                        <div id="imprimeDiv" class="panel-body">
+                            <p:growl id="mensajeGeneral" showDetail="true" sticky="false" />
+                            <p:dataTable id="tablaListaProducto" var="item" value="#{mbAbonos.allAbonos}" paginator="true" rows="7" selection="#{mbAbonos.abonos}" selectionMode="single" rowKey="#{item.idabonos}" filteredValue="#{mbAbonos.listaAbonosFiltrado}">
+
+
+                                <f:facet name="header">
+                                    <h2> LISTA PRESTAMOS</h2>
+                                </f:facet>
+                                <p:column headerText="Codigo" style="width: 70px;" >
+                                    <h:outputText value="#{item.idabonos}"/>
+                                </p:column>
+
+                                <p:column headerText="Cliente">
+                                    <h:outputText value="#{mbCliente.getById(item.cliente.idcliente).getNombre()} #{mbCliente.getById(item.cliente.idcliente).getApellidos()}"/>
+                                </p:column>
+                                <p:column headerText="Direccion" >
+                                    <h:outputText value="#{mbCliente.getById(item.cliente.idcliente).getDireccion()}"/>
+                                </p:column>
+                                <p:column headerText="Valor Prestamo" style="width: 120px;">
+                                    <h:outputText value="#{item.precioTotal}"/>
+
+                                </p:column>
+                                <p:column headerText="N° Cuotas" style="width: 70px;">
+                                    <h:outputText value="#{item.totalCuotas}"/>
+
+                                </p:column>
+                                <p:column headerText="Valor Cuota" style="width: 100px;">
+                                    <h:outputText value="#{item.valorCuota}"/>
+
+                                </p:column>
+                                <p:column headerText="Saldo Final" style="width: 120px;">
+                                    <h:outputText value="#{item.saldofinal}"/>
+
+                                </p:column>
+                                <p:column headerText="Fecha" filterBy="fecharegistro">
+                                    <h:outputText value="#{item.fecharegistro}"/>
+
+                                </p:column>
+
+                                <p:column headerText="cuota" >
+                                    <h:outputText value="#{item.cuota}"/>
+
+                                </p:column>
+                                <p:column headerText="Empleado" filterBy="#{beanEmpleado.getById(item.empleado.idempleado).getNombre()}" >
+                                    <h:outputText value="#{beanEmpleado.getById(item.empleado.idempleado).getNombre()}"/>
+                                </p:column>
+                                <p:column headerText="Ruta" style="width: 70px;" filterBy="#{mbRuta.getById(item.ruta.idruta).getNonbre()}">
+                                    <h:outputText value="#{mbRuta.getById(item.ruta.idruta).getNonbre()}"/>
+                                </p:column>
+
+                            </p:dataTable>
+                        </div>
+
+                    </h:form> 
+
+                </div>
+            </ui:define>
+
+            <ui:define name="bottom">
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
+
+

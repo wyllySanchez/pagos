@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./../../layaut/TemplateAdmin.xhtml">
+
+            <ui:define name="content">
+                <h:form id="frmListaDetalleAbonos">
+                    <p:growl id="mensajeGeneral" showDetail="true" sticky="false" />
+                    <div class="container" >
+                        <div class="row">
+                            <h1 style="color: #fff;">Detalle Abonos</h1>
+                            <hr></hr>
+                            <div style="overflow-y: scroll; height: 400px;" class="col-lg-12">
+                                <table class="table table-bordered">
+                                    <tr class="danger fixed-top" >
+                                        <th style="margin-left: 20px;">Codigo</th>
+                                        <th style="margin-left: 20px;">Codigo Abono</th>
+                                        <th style="margin-left: 20px;">Nombre</th>
+                                        <th style="margin-left: 20px; ">Alto</th>
+                                        <th style="margin-left: 20px;">Ancho</th>
+                                        <th style="margin-left: 20px;">Cantidad</th>
+                                        <th style="margin-left: 20px;">Precio Trabajo</th>
+                                        <th style="margin-left: 20px;">Precio venta</th>
+
+
+
+
+                                    </tr>
+                                    <tbody>
+                                        <ui:repeat var="item" value="#{mbAbonoDetalle.all}" varStatus="status">
+                                            <h:panelGroup>
+                                                <tr>
+                                                    <td>#{item.idabonoDetalle}</td>
+                                                    <td>#{item.abonos.idabonos}</td>
+                                                    <td>#{item.nombrepro}</td>
+                                                    <td>#{item.alto}</td>
+                                                    <td>#{item.ancho}</td>
+                                                    <td>#{item.cantidad}</td>
+                                                    <td>#{item.preccioTrabajo}</td>
+                                                    <td>#{item.precioventa}</td>
+
+                                                </tr>
+                                            </h:panelGroup>
+
+
+                                        </ui:repeat>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </h:form>
+            </ui:define>
+
+            <ui:define name="bottom">
+
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>
