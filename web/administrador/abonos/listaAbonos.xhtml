@@ -59,6 +59,10 @@
                                     <h:outputText value="#{item.cuota}"/>
 
                                 </p:column>
+                                   <p:column headerText="Estado" >
+                                       <h:outputText value="#{item.estado}"/>
+
+                                </p:column>
                                 <p:column headerText="Empleado" filterBy="#{beanEmpleado.getById(item.empleado.idempleado).getNombre()}" >
                                     <h:outputText value="#{beanEmpleado.getById(item.empleado.idempleado).getNombre()}"/>
                                 </p:column>
