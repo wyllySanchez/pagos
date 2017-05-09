@@ -50,15 +50,16 @@
                                     <h:outputText value="#{item.saldofinal}"/>
 
                                 </p:column>
+                                   <p:column headerText="Cuota Actual" style="width: 50px;">
+                                    <h:outputText value="#{item.cuota}"/>
+
+                                </p:column>
                                 <p:column headerText="Fecha Valor" filterBy="fecharegistro" style="width: 60px;">
                           
 
                                 </p:column>
 
-                                <p:column headerText="Cuota Actual" style="width: 50px;">
-                                    <h:outputText value="#{item.cuota}"/>
-
-                                </p:column>
+                             
                              
                                 <p:column headerText="Ruta" style="width: 50px;" filterBy="#{mbRuta.getById(item.ruta.idruta).getNonbre()}">
                                     <h:outputText value="#{mbRuta.getById(item.ruta.idruta).getNonbre()}"/>

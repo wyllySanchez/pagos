@@ -42,7 +42,7 @@ public class DaoAbonos  implements InterfaceAbonos{
 
     @Override
     public List<Abonos> getAll(Session session) throws Exception {
-   String hql = "FROM Abonos where estado='Vigente' and saldofinal>0";
+   String hql = "FROM Abonos where estado='VIGENTE' and saldofinal>0";
         Query query = session.createQuery(hql);
         return (List<Abonos>) query.list();  
     }

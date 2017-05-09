@@ -517,7 +517,7 @@ public class MbAbonos implements Serializable {
         }
     }
 
-    public String calculaFecha(Date date) {
+    public String calculaFecha(Date date, int idp) {
         String color = "";
         System.out.println("entro");
         try {
@@ -527,34 +527,40 @@ public class MbAbonos implements Serializable {
                 vencido.setTime(date);
                 //Fecha actual
                 Calendar fecha = Calendar.getInstance();
-
-                if (fecha.after(vencido) || fecha.equals(vencido)) {
-                    color = "colorvencido";
-                    System.out.println("el primer de vencido color ..................");
-                } else if (this.abonos.getIdPrestamo() == 2) {
-                    long diferencia = vencido.getTime().getTime() - fecha.getTime().getTime();
-                    long diasDiferencia = diferencia / (24 * 60 * 60 * 1000);
-                    if (diasDiferencia <= 5 && diasDiferencia >= 3) {
-                        color = "colorPendiente";
-                        System.out.println("prestamo 2 y dias de 5 a 3...................");
-                    } else if (diasDiferencia <= 2) {
-                        color = "colorPendientef";
-                           System.out.println("prestamo 2 y dias menos 2");
-                    }
-                } else if (this.abonos.getIdPrestamo() == 3) {
-                    long diferencia = vencido.getTime().getTime() - fecha.getTime().getTime();
-                    long diasDiferencia = diferencia / (24 * 60 * 60 * 1000);
-                    if (diasDiferencia <= 10 && diasDiferencia >= 6) {
-                        color = "colorPendiente";
-                           System.out.println("prestamo 3 y dias de 10 a 6...................");
-                    } else if (diasDiferencia <= 5) {
-                        color = "colorPendientef";
-                           System.out.println("prestamo 3 y dias de 5 ...................");
-                    }
+                 long diferencia = vencido.getTime().getTime() - fecha.getTime().getTime();
+                        long diasDiferencia = diferencia / (24 * 60 * 60 * 1000);
+                       
+                switch (idp) {
+                    case 1:
+                        if (fecha.after(vencido) || fecha.equals(vencido)) {
+                            color = "colorvencido";
+                        }
+                        break;
+                    case 2:
+                        if (fecha.after(vencido) || fecha.equals(vencido)) {
+                            color = "colorvencido";
+                        }else 
+                        if (diasDiferencia <= 5 && diasDiferencia >= 3) {
+                            color = "colorPendiente";
+                        } else if (diasDiferencia <= 2) {
+                            color = "colorPendientef";
+                        }
+                        break;
+                    case 3:
+                         if (fecha.after(vencido) || fecha.equals(vencido)) {
+                            color = "colorvencido";
+                        }else if (diasDiferencia <= 10 && diasDiferencia >= 6) {
+                            color = "colorPendiente";
+                        } else if (diasDiferencia <= 5) {
+                            color = "colorPendientef";
+                        }
+                        break;
                 }
-            }
 
+            }
+            System.out.println("despues del if");
         } catch (Exception e) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "...:", "No se realizo ningun cambio "));
         }
         return color;
     }

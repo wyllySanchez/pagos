@@ -46,14 +46,16 @@
                                 <h:outputText value="#{item.fecharegistro}"/>
 
                             </p:column>
-                            <p:column headerText="Vigencia" filterBy="fechaPlazo" styleClass="#{mbAbonos.calculaFecha(item.fechaPlazo)}">
-                                    <h:outputText value="#{item.fechaPlazo}"/>
+                            <p:column headerText="Vigencia" filterBy="fechaPlazo" styleClass="#{mbAbonos.calculaFecha(item.fechaPlazo,item.idPrestamo)}">
+                                <h:outputText value="#{item.fechaPlazo}"/>
 
                             </p:column>
                             <p:column headerText="Estado">
                                 <h:outputText value="#{item.estado}"/>
                             </p:column>
-
+                            <p:column headerText="Prestamo" filterBy="idPrestamo">
+                                <h:outputText value="#{item.idPrestamo}"/>
+                            </p:column>
 
                         </p:dataTable>
 
