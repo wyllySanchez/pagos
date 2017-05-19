@@ -124,8 +124,22 @@ public class MbAbonos implements Serializable {
             this.session = HibernateUtil.getSessionFactory().openSession();
             this.transaccion = this.session.beginTransaction();
 
-            this.abonos.setCliente(cliente);
+            if (this.idPrestamo == 1 || this.idPrestamo == 2 || this.idPrestamo == 3) {
+                System.out.println("entro en  la condicional de id prestamo................" + idPrestamo);
+                this.abonos.setSaldofinal(this.abonos.getValorCuota() * this.abonos.getTotalCuotas());
+                System.out.println("despues  de la condicional de id prestamo................" + this.abonos.getSaldofinal());
 
+            } else {
+                System.out.println("antes de la condicional de id prestamo 4................");
+            }
+            if (this.idPrestamo == 4) {
+                this.abonos.setValorCuota((this.abonos.getPrecioTotal() * 7) / 100);
+                this.abonos.setSaldofinal((((this.abonos.getPrecioTotal() * 7) / 100) * this.abonos.getTotalCuotas()) + this.abonos.getPrecioTotal());
+                System.out.println("entor a la condicional y saldo final en..................." + this.abonos.getSaldofinal());
+//                this.abonos.setFechaPlazo(this.abonos.getFecharegistro());
+            }
+
+            this.abonos.setCliente(cliente);
             this.abonos.setEmpleado(empleado);
             this.abonos.setRuta(daoRuta.getById(this.session, this.codigoRuta));
             this.abonos.setFecharegistro(new Date());
@@ -133,6 +147,9 @@ public class MbAbonos implements Serializable {
             this.abonos.setEstado("VIGENTE");
             this.abonos.setCuotaVencida(0);
             this.abonos.setIdPrestamo(this.idPrestamo);
+            this.abonos.setFechaPlazo(fechaSiguiente(abonos.getIdPrestamo()));
+            System.out.println("despues de la fecha de plazo es  ................." + this.abonos.getFechaPlazo());
+
             daoAbonos.registar(this.session, this.abonos);
 
             this.abonos = daoAbonos.getByUltimoRegistro(this.session);
@@ -166,6 +183,37 @@ public class MbAbonos implements Serializable {
 
         }
 
+    }
+
+    public Date fechaSiguiente(int id) {
+        Date fechaPla = new Date();
+        Calendar vencido = Calendar.getInstance();
+        vencido.setTime(fechaPla);
+        switch (id) {
+            case 1:
+                //Diario
+//                vencido.set(Calendar.DAY_OF_MONTH, +1);
+                vencido.set(Calendar.DAY_OF_MONTH, vencido.get(Calendar.DAY_OF_MONTH) + 1);
+                return vencido.getTime();
+            case 2:
+                //Quincenal
+                vencido.set(Calendar.DAY_OF_MONTH, vencido.get(Calendar.DAY_OF_MONTH) + 15);
+//                vencido.set(Calendar.DAY_OF_MONTH, +15);
+                return vencido.getTime();
+            case 3:
+                //Mensual
+                vencido.set(Calendar.DAY_OF_MONTH, vencido.get(Calendar.DAY_OF_MONTH) + 30);
+//                vencido.set(Calendar.DAY_OF_MONTH, +30);
+                return vencido.getTime();
+            case 4:
+                //mensual solo intereses
+                vencido.set(Calendar.DAY_OF_MONTH, vencido.get(Calendar.DAY_OF_MONTH) + 30);
+//                vencido.set(Calendar.DAY_OF_MONTH, +30);
+                return vencido.getTime();
+
+            default:
+                return new Date();
+        }
     }
 
     public String convertFecha(Date fecha) {
@@ -527,9 +575,9 @@ public class MbAbonos implements Serializable {
                 vencido.setTime(date);
                 //Fecha actual
                 Calendar fecha = Calendar.getInstance();
-                 long diferencia = vencido.getTime().getTime() - fecha.getTime().getTime();
-                        long diasDiferencia = diferencia / (24 * 60 * 60 * 1000);
-                       
+                long diferencia = vencido.getTime().getTime() - fecha.getTime().getTime();
+                long diasDiferencia = diferencia / (24 * 60 * 60 * 1000);
+
                 switch (idp) {
                     case 1:
                         if (fecha.after(vencido) || fecha.equals(vencido)) {
@@ -539,17 +587,16 @@ public class MbAbonos implements Serializable {
                     case 2:
                         if (fecha.after(vencido) || fecha.equals(vencido)) {
                             color = "colorvencido";
-                        }else 
-                        if (diasDiferencia <= 5 && diasDiferencia >= 3) {
+                        } else if (diasDiferencia <= 5 && diasDiferencia >= 3) {
                             color = "colorPendiente";
                         } else if (diasDiferencia <= 2) {
                             color = "colorPendientef";
                         }
                         break;
                     case 3:
-                         if (fecha.after(vencido) || fecha.equals(vencido)) {
+                        if (fecha.after(vencido) || fecha.equals(vencido)) {
                             color = "colorvencido";
-                        }else if (diasDiferencia <= 10 && diasDiferencia >= 6) {
+                        } else if (diasDiferencia <= 10 && diasDiferencia >= 6) {
                             color = "colorPendiente";
                         } else if (diasDiferencia <= 5) {
                             color = "colorPendientef";

@@ -88,6 +88,15 @@
                             <p:layoutUnit id="DatosPagos" position="center" style="padding: 5px; 
                                           font-size: 14px; text-align: justify" size="150">
                                 <h:panelGrid id="gripBuscarDatosPagos" columns="4">     
+                                    <p:outputLabel value="Tipo Prestamo" style="font-weight: bold;"/>
+                                    <h:selectOneMenu  value="#{mbAbonos.idPrestamo}"  required="true" style="margin-top: 10px; color: #000000;"  styleClass="form-control" disabled="#{!mbAbonos.enabled}">
+                                        <f:ajax event="change" render="@form"></f:ajax>
+                                        <f:selectItem itemLabel="Tipo Prestamo" itemValue="0" />
+                                        <f:selectItem itemLabel="Diario" itemValue="1"/>
+                                        <f:selectItem itemLabel="Quincenal" itemValue="2"/>
+                                        <f:selectItem itemLabel="Mensual" itemValue="3"/>
+                                    </h:selectOneMenu>
+
                                     <p:outputLabel value="Valor Prestamo" style="font-weight: bold;"/>
                                     <p:inputText autocomplete="off" id="Nombre" placeholder="Valor Prestamo" value="#{mbAbonos.abonos.precioTotal}" class="col-lg-12 form-control"  style="margin-top: 10px;"   disabled="#{!mbAbonos.enabled}">
                                     </p:inputText>
@@ -100,20 +109,6 @@
                                     <p:inputText autocomplete="off" id="numeroDocumento" placeholder="Valor Cuota" value="#{mbAbonos.abonos.valorCuota}" class="col-lg-12 form-control" style="margin-top: 10px"   disabled="#{!mbAbonos.enabled}">
                                     </p:inputText>
 
-                                    <p:outputLabel value="Saldo Total" style="font-weight: bold; margin-left: 40px;"/>
-                                    <p:inputText autocomplete="off" id="saldoTotal" placeholder="Saldo Total" value="#{mbAbonos.abonos.saldofinal}" class="col-lg-12 form-control" style="margin-top: 10px"   disabled="#{!mbAbonos.enabled}">
-                                    </p:inputText>
-                                    <p:outputLabel value="Tipo Prestamo" style="font-weight: bold;"/>
-                                    <h:selectOneMenu  value="#{mbAbonos.idPrestamo}"  required="true" style="margin-top: 10px; color: #000000;"  styleClass="form-control" disabled="#{!mbAbonos.enabled}">
-                                        <f:selectItem itemLabel="Tipo Prestamo" itemValue="0" />
-                                        <f:selectItem itemLabel="Diario" itemValue="1"/>
-                                        <f:selectItem itemLabel="Quincenal" itemValue="2"/>
-                                        <f:selectItem itemLabel="Mensual" itemValue="3"/>
-                                    </h:selectOneMenu>
-
-
-                                    <p:outputLabel value="Fecha Plazo" style="font-weight: bold; margin-top: 20px; margin-left: 40px;"/>
-                                    <p:calendar id="FechaPlazo" label="yyyy/mm/dd" pattern="yyyy/MM/dd" showOn="button" value="#{mbAbonos.abonos.fechaPlazo}"  style="margin-top: 20px; width: 300px;" disabled="#{!mbAbonos.enabled}"/>
 
                                     <p:outputLabel value="Ruta" style="font-weight: bold;"/>
                                     <h:selectOneMenu  value="#{mbAbonos.codigoRuta}"  required="true" style="margin-top: 10px;  color: #000000;" styleClass="form-control"  disabled="#{!mbAbonos.enabled}">
