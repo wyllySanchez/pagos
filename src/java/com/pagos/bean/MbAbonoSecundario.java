@@ -134,7 +134,9 @@ public class MbAbonoSecundario {
                 if (abonos.getCuotaVencida() >= 1) {
                     abonos.setCuotaVencida(this.abonos.getCuotaVencida() - 1);
                 }
+                
                  abonos.setFechaPlazo(fechaSiguiente(abonos.getIdPrestamo(),abonos.getFechaPlazo()));
+                 
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Correcto", "Se agregaron 2 Cuotas"));
             } else if (this.abonosecundario.getValorAbono() / abonos.getValorCuota() == 3) {
                 abonos.setCuota(abonos.getCuota() - 3);
@@ -324,6 +326,10 @@ public class MbAbonoSecundario {
                  vencido.set(Calendar.DAY_OF_MONTH, vencido.get(Calendar.DAY_OF_MONTH)+15);
                  return vencido.getTime();
             case 3:
+                //Mensual
+                vencido.set(Calendar.DAY_OF_MONTH, vencido.get(Calendar.DAY_OF_MONTH)+30);
+                return vencido.getTime();
+                 case 4:
                 //Mensual
                 vencido.set(Calendar.DAY_OF_MONTH, vencido.get(Calendar.DAY_OF_MONTH)+30);
                 return vencido.getTime();
